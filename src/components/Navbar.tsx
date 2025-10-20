@@ -2,7 +2,22 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react"
+import { 
+  MapPin, 
+  Compass, 
+  Camera, 
+  Heart, 
+  User, 
+  Search,
+  Menu,
+  X,
+  Globe,
+  PlusCircle,
+  LogIn,
+  UserPlus
+} from "lucide-react"
+import Image from "next/image"
+import { useState } from "react"
 
 import { useIsMobile } from "@/hooks/useIsMobile"
 import {
@@ -14,204 +29,294 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import Image from "next/image"
 
-const components: { title: string; href: string; description: string }[] = [
+
+const destinations = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+    title: "Avrupa Turları",
+    href: "/destinations/europe",
+    description: "Paris, Roma, Barcelona ve daha fazlası...",
+    icon: <Compass className="w-4 h-4" />
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
+    title: "Asya Maceraları", 
+    href: "/destinations/asia",
+    description: "Tokyo, Bangkok, Bali gezileri",
+    icon: <MapPin className="w-4 h-4" />
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    title: "Doğa Rotaları",
+    href: "/destinations/nature", 
+    description: "Kapadokya, Pamukkale, Antalya",
+    icon: <Camera className="w-4 h-4" />
+  },
+]
+
+const travelCategories = [
+  {
+    title: "Şehir Turları",
+    href: "/categories/city",
+    description: "Büyük şehirlerdeki kültürel keşifler"
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
+    title: "Doğa & Macera", 
+    href: "/categories/adventure",
+    description: "Dağ, orman ve deniz maceraları"
   },
   {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    title: "Gastronomi",
+    href: "/categories/food",
+    description: "Yerel lezzetler ve mutfak kültürleri"
   },
   {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "Kültür & Sanat",
+    href: "/categories/culture", 
+    description: "Müzeler, festivaller ve sanat etkinlikleri"
   },
 ]
 
 export function Navbar() {
   const isMobile = useIsMobile()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false) // Bu Auth provider'dan gelecek
 
   return (
-    <NavigationMenu viewport={isMobile} className="w-full mx-auto pt-10 backdrop-blur-sm relative">
-            <div className="absolute left-50 z-10 flex ">
-               
-              <Link href="/">
-                <Image
-                 src="/logo.png" 
-                 alt="Logo" 
-                 width={50}
-                 height={50}
-                 />
-              </Link>
-                <div>
-                    <h2 className="">
-                    Travel
-                    </h2>
-                    <h2>
-                  Flow
-                  </h2>
-                </div>
+    <nav className="h-22 fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between h-full">
+          
+          {/* Logo & Brand */}
+          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+            <div className="relative">
+              <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center shadow-md">
+                <Compass className="w-6 h-6 text-white" />
+              </div>
             </div>
-      <NavigationMenuList className="flex-wrap">
-            
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Home</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden transition-all duration-200 select-none focus:shadow-md md:p-6"
+            <div className="hidden sm:block">
+              <h1 className="text-xl font-bold text-gray-800">
+                TravelFlow
+              </h1>
+              <p className="text-xs text-gray-500 -mt-1">Seyahat Blog Platformu</p>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1 flex-1 justify-center h-full">
+            <NavigationMenu className="h-full">
+              <NavigationMenuList className="flex items-center space-x-1 h-full">
+                
+                {/* Ana Sayfa */}
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`} 
                     href="/"
                   >
-                    <div className="mb-2 text-lg font-medium sm:mt-4">
-                      shadcn/ui
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-tight">
-                      Beautifully designed components built with Tailwind CSS.
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-              </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 sm:w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
+                    Ana Sayfa
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                {/* Destinasyonlar */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
+                    Destinasyonlar
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-gray-100 to-gray-200 p-6 no-underline outline-none focus:shadow-md"
+                            href="/destinations"
+                          >
+                            <MapPin className="h-6 w-6 text-gray-600" />
+                            <div className="mb-2 mt-4 text-lg font-medium text-gray-900">
+                              Tüm Destinasyonlar
+                            </div>
+                            <p className="text-sm leading-tight text-gray-600">
+                              Dünya çapındaki en güzel gezilecek yerleri keşfedin
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      {destinations.map((destination) => (
+                        <ListItem
+                          key={destination.title}
+                          title={destination.title}
+                          href={destination.href}
+                          icon={destination.icon}
+                        >
+                          {destination.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Kategoriler */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
+                    Kategoriler
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                      {travelCategories.map((category) => (
+                        <ListItem
+                          key={category.title}
+                          title={category.title}
+                          href={category.href}
+                        >
+                          {category.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Keşfet */}
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`}
+                    href="/explore"
+                  >
+                    Keşfet
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
+          {/* Search Bar - Desktop Only */}
+          <div className="hidden lg:flex items-center space-x-3 flex-1 max-w-md mx-8">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input 
+                type="text"
+                placeholder="Destinasyon, şehir veya ülke ara..."
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none text-sm bg-white/70"
+              />
+            </div>
+          </div>
+
+          {/* Auth & Actions */}
+          <div className="flex items-center space-x-3">
+            
+            {/* Language Switcher */}
+            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              <Globe className="w-5 h-5" />
+            </button>
+
+            {isLoggedIn ? (
+              <>
+                {/* Create Post Button */}
+                <Link 
+                  href="/create"
+                  className="hidden sm:flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/docs">Docs</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="hidden md:block">
-          <NavigationMenuTrigger>List</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[300px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Components</div>
-                    <div className="text-muted-foreground">
-                      Browse all components in the library.
-                    </div>
+                  <PlusCircle className="w-4 h-4" />
+                  <span>Paylaş</span>
+                </Link>
+
+                {/* User Profile */}
+                <Link 
+                  href="/profile"
+                  className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                </Link>
+              </>
+            ) : (
+              <div className="hidden sm:flex items-center space-x-2">
+                <Link 
+                  href="/sign-in"
+                  className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Giriş</span>
+                </Link>
+                <Link 
+                  href="/sign-up"
+                  className="flex items-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  <span>Kayıt Ol</span>
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              
+              {/* Search Bar - Mobile */}
+              <div className="relative mb-3 px-2">
+                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input 
+                  type="text"
+                  placeholder="Ara..."
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none text-sm"
+                />
+              </div>
+
+              <Link href="/" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Ana Sayfa
+              </Link>
+              
+              <Link href="/destinations" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Destinasyonlar  
+              </Link>
+              
+              <Link href="/categories" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Kategoriler
+              </Link>
+              
+              <Link href="/explore" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Keşfet
+              </Link>
+
+              {isLoggedIn ? (
+                <>
+                  <Link href="/create" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
+                    <PlusCircle className="w-4 h-4 mr-3" />
+                    Paylaşım Yap
                   </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Documentation</div>
-                    <div className="text-muted-foreground">
-                      Learn how to use the library.
-                    </div>
+                  
+                  <Link href="/profile" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                    <User className="w-4 h-4 mr-3" />
+                    Profilim
                   </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Blog</div>
-                    <div className="text-muted-foreground">
-                      Read our latest blog posts.
-                    </div>
+                </>
+              ) : (
+                <div className="space-y-2 pt-2 border-t border-gray-200">
+                  <Link href="/sign-in" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                    <LogIn className="w-4 h-4 mr-3" />
+                    Giriş Yap
                   </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="hidden md:block">
-          <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Components</Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Documentation</Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Blocks</Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="hidden md:block">
-          <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleHelpIcon />
-                    Backlog
+                  
+                  <Link href="/sign-up" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
+                    <UserPlus className="w-4 h-4 mr-3" />
+                    Kayıt Ol
                   </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleIcon />
-                    To Do
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleCheckIcon />
-                    Done
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
   )
 }
 
@@ -219,14 +324,26 @@ function ListItem({
   title,
   children,
   href,
+  icon,
   ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
+}: React.ComponentPropsWithoutRef<"li"> & { 
+  href: string; 
+  icon?: React.ReactNode;
+}) {
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
-        <Link href={href}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+        <Link 
+          href={href}
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 focus:bg-gray-100 group"
+        >
+          <div className="flex items-center space-x-2">
+            {icon && <span className="text-gray-500 group-hover:text-gray-700">{icon}</span>}
+            <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-700">
+              {title}
+            </div>
+          </div>
+          <p className="line-clamp-2 text-sm leading-snug text-gray-600">
             {children}
           </p>
         </Link>
