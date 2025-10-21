@@ -14,11 +14,14 @@ import {
   Globe,
   PlusCircle,
   LogIn,
-  UserPlus
+  UserPlus,
+  LogOut
 } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 
+import { useAuth } from "@/contexts/AuthContext"
+import { AuthModal } from "@/components/auth/AuthModal"
 import { useIsMobile } from "@/hooks/useIsMobile"
 import {
   NavigationMenu,
@@ -78,9 +81,12 @@ const travelCategories = [
 export function Navbar() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false) // Bu Auth provider'dan gelecek
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login')
+  const { user, signOut, loading } = useAuth()
 
   return (
+    <>
     <nav className="h-22 fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">
@@ -206,7 +212,7 @@ export function Navbar() {
               <Globe className="w-5 h-5" />
             </button>
 
-            {isLoggedIn ? (
+            {user ? (
               <>
                 {/* Create Post Button */}
                 <Link 
@@ -217,32 +223,47 @@ export function Navbar() {
                   <span>Paylaş</span>
                 </Link>
 
-                {/* User Profile */}
-                <Link 
-                  href="/profile"
-                  className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-white" />
-                  </div>
-                </Link>
+                {/* User Profile & Logout */}
+                <div className="flex items-center space-x-2">
+                  <Link 
+                    href="/profile"
+                    className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                    title="Çıkış Yap"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </button>
+                </div>
               </>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Link 
-                  href="/sign-in"
+                <button 
+                  onClick={() => {
+                    setAuthModalMode('login')
+                    setIsAuthModalOpen(true)
+                  }}
                   className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium"
                 >
                   <LogIn className="w-4 h-4" />
                   <span>Giriş</span>
-                </Link>
-                <Link 
-                  href="/sign-up"
+                </button>
+                <button 
+                  onClick={() => {
+                    setAuthModalMode('signup')
+                    setIsAuthModalOpen(true)
+                  }}
                   className="flex items-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Kayıt Ol</span>
-                </Link>
+                </button>
               </div>
             )}
 
@@ -287,7 +308,7 @@ export function Navbar() {
                 Keşfet
               </Link>
 
-              {isLoggedIn ? (
+              {user ? (
                 <>
                   <Link href="/create" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
                     <PlusCircle className="w-4 h-4 mr-3" />
@@ -298,18 +319,40 @@ export function Navbar() {
                     <User className="w-4 h-4 mr-3" />
                     Profilim
                   </Link>
+                  
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg w-full text-left"
+                  >
+                    <LogOut className="w-4 h-4 mr-3" />
+                    Çıkış Yap
+                  </button>
                 </>
               ) : (
                 <div className="space-y-2 pt-2 border-t border-gray-200">
-                  <Link href="/sign-in" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                  <button 
+                    onClick={() => {
+                      setAuthModalMode('login')
+                      setIsAuthModalOpen(true)
+                      setIsMenuOpen(false)
+                    }}
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg w-full text-left"
+                  >
                     <LogIn className="w-4 h-4 mr-3" />
                     Giriş Yap
-                  </Link>
+                  </button>
                   
-                  <Link href="/sign-up" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
+                  <button
+                    onClick={() => {
+                      setAuthModalMode('signup')
+                      setIsAuthModalOpen(true)
+                      setIsMenuOpen(false)
+                    }}
+                    className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium w-full text-left"
+                  >
                     <UserPlus className="w-4 h-4 mr-3" />
                     Kayıt Ol
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
@@ -317,6 +360,14 @@ export function Navbar() {
         )}
       </div>
     </nav>
+    
+    {/* Auth Modal */}
+    <AuthModal
+      isOpen={isAuthModalOpen}
+      onClose={() => setIsAuthModalOpen(false)}
+      defaultMode={authModalMode}
+    />
+  </>
   )
 }
 
