@@ -18,11 +18,12 @@ import {
   LogOut
 } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { useIsMobile } from "@/hooks/useIsMobile"
+import { createClient } from "@/utils/supabase/client"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -55,35 +56,36 @@ const destinations = [
   },
 ]
 
-const travelCategories = [
-  {
-    title: "Şehir Turları",
-    href: "/categories/city",
-    description: "Büyük şehirlerdeki kültürel keşifler"
-  },
-  {
-    title: "Doğa & Macera", 
-    href: "/categories/adventure",
-    description: "Dağ, orman ve deniz maceraları"
-  },
-  {
-    title: "Gastronomi",
-    href: "/categories/food",
-    description: "Yerel lezzetler ve mutfak kültürleri"
-  },
-  {
-    title: "Kültür & Sanat",
-    href: "/categories/culture", 
-    description: "Müzeler, festivaller ve sanat etkinlikleri"
-  },
-]
-
 export function Navbar() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login')
+  const [categories, setCategories] = useState<any[]>([])
   const { user, signOut, loading } = useAuth()
+
+  const supabase = createClient()
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('Categories')
+        .select('*')
+        .limit(4) // İlk 4 kategori
+
+      if (error) {
+        console.error('Categories fetch error:', error)
+      } else if (data) {
+        setCategories(data)
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+    }
+  }
 
   return (
     <>
@@ -165,15 +167,20 @@ export function Navbar() {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
-                      {travelCategories.map((category) => (
+                      {categories.map((category) => (
                         <ListItem
-                          key={category.title}
-                          title={category.title}
-                          href={category.href}
+                          key={category.id}
+                          title={category.name}
+                          href={`/categories/${category.slug}`}
                         >
-                          {category.description}
+                          {category.description || 'Kategori açıklaması'}
                         </ListItem>
                       ))}
+                      {categories.length === 0 && (
+                        <div className="col-span-2 text-center text-gray-500 py-4">
+                          Kategoriler yükleniyor...
+                        </div>
+                      )}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
