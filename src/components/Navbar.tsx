@@ -21,7 +21,6 @@ import Image from "next/image"
 import { useState, useEffect } from "react"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { AuthModal } from "@/components/auth/AuthModal"
 import { useIsMobile } from "@/hooks/useIsMobile"
 import { createClient } from "@/utils/supabase/client"
 import {
@@ -59,8 +58,6 @@ const destinations = [
 export function Navbar() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login')
   const [categories, setCategories] = useState<any[]>([])
   const { user, signOut, loading } = useAuth()
 
@@ -108,12 +105,10 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 flex-1 justify-center h-full">
             <NavigationMenu className="h-full">
               <NavigationMenuList className="flex items-center space-x-1 h-full">
                 
-                {/* Ana Sayfa */}
                 <NavigationMenuItem>
                   <NavigationMenuLink 
                     className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`} 
@@ -123,7 +118,6 @@ export function Navbar() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
-                {/* Destinasyonlar */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
                     Destinasyonlar
@@ -160,7 +154,6 @@ export function Navbar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Kategoriler */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
                     Kategoriler
@@ -185,7 +178,6 @@ export function Navbar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Keşfet */}
                 <NavigationMenuItem>
                   <NavigationMenuLink 
                     className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`}
@@ -199,7 +191,6 @@ export function Navbar() {
             </NavigationMenu>
           </div>
 
-          {/* Search Bar - Desktop Only */}
           <div className="hidden lg:flex items-center space-x-3 flex-1 max-w-md mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -251,30 +242,23 @@ export function Navbar() {
               </>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <button 
-                  onClick={() => {
-                    setAuthModalMode('login')
-                    setIsAuthModalOpen(true)
-                  }}
+                <Link 
+                  href="/login"
                   className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium"
                 >
                   <LogIn className="w-4 h-4" />
                   <span>Giriş</span>
-                </button>
-                <button 
-                  onClick={() => {
-                    setAuthModalMode('signup')
-                    setIsAuthModalOpen(true)
-                  }}
+                </Link>
+                <Link 
+                  href="/register"
                   className="flex items-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
                   <UserPlus className="w-4 h-4" />
                   <span>Kayıt Ol</span>
-                </button>
+                </Link>
               </div>
             )}
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
@@ -284,12 +268,10 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-sm">
             <div className="px-2 pt-2 pb-3 space-y-1">
               
-              {/* Search Bar - Mobile */}
               <div className="relative mb-3 px-2">
                 <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input 
@@ -337,29 +319,23 @@ export function Navbar() {
                 </>
               ) : (
                 <div className="space-y-2 pt-2 border-t border-gray-200">
-                  <button 
-                    onClick={() => {
-                      setAuthModalMode('login')
-                      setIsAuthModalOpen(true)
-                      setIsMenuOpen(false)
-                    }}
+                  <Link 
+                    href="/login"
                     className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg w-full text-left"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     <LogIn className="w-4 h-4 mr-3" />
                     Giriş Yap
-                  </button>
+                  </Link>
                   
-                  <button
-                    onClick={() => {
-                      setAuthModalMode('signup')
-                      setIsAuthModalOpen(true)
-                      setIsMenuOpen(false)
-                    }}
+                  <Link
+                    href="/register"
                     className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium w-full text-left"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     <UserPlus className="w-4 h-4 mr-3" />
                     Kayıt Ol
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
@@ -367,13 +343,6 @@ export function Navbar() {
         )}
       </div>
     </nav>
-    
-    {/* Auth Modal */}
-    <AuthModal
-      isOpen={isAuthModalOpen}
-      onClose={() => setIsAuthModalOpen(false)}
-      defaultMode={authModalMode}
-    />
   </>
   )
 }
