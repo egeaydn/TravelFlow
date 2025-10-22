@@ -34,37 +34,21 @@ import {
 } from "@/components/ui/navigation-menu"
 
 
-const destinations = [
-  {
-    title: "Avrupa Turları",
-    href: "/destinations/europe",
-    description: "Paris, Roma, Barcelona ve daha fazlası...",
-    icon: <Compass className="w-4 h-4" />
-  },
-  {
-    title: "Asya Maceraları", 
-    href: "/destinations/asia",
-    description: "Tokyo, Bangkok, Bali gezileri",
-    icon: <MapPin className="w-4 h-4" />
-  },
-  {
-    title: "Doğa Rotaları",
-    href: "/destinations/nature", 
-    description: "Kapadokya, Pamukkale, Antalya",
-    icon: <Camera className="w-4 h-4" />
-  },
-]
+// Statik destinasyonlar dinamik ülkeler ile değiştirildi
 
 export function Navbar() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
+  const [topCountries, setTopCountries] = useState<any[]>([])
+  const [mostPopularCountry, setMostPopularCountry] = useState<any>(null)
   const { user, signOut, loading } = useAuth()
 
   const supabase = createClient()
 
   useEffect(() => {
     fetchCategories()
+    fetchTopCountries()
   }, [])
 
   const fetchCategories = async () => {
@@ -81,6 +65,90 @@ export function Navbar() {
       }
     } catch (error) {
       console.error('Error fetching categories:', error)
+    }
+  }
+
+  const fetchTopCountries = async () => {
+    try {
+      // En çok post atılan ülkeleri getir
+      const { data, error } = await supabase
+        .from('Posts')
+        .select(`
+          country_id,
+          Countries!inner(
+            id,
+            name,
+            code,
+            flag
+          )
+        `)
+        .not('country_id', 'is', null)
+
+      if (error) {
+        console.error('Countries fetch error:', error)
+        // Post verisi yoksa, doğrudan Countries tablosundan çek
+        await fetchAllCountries()
+        return
+      }
+
+      if (data && data.length > 0) {
+        // Ülkeleri post sayısına göre grupla
+        const countryPostCounts = data.reduce((acc, post) => {
+          const countryId = post.country_id
+          const country = post.Countries
+          
+          if (!acc[countryId]) {
+            acc[countryId] = {
+              ...country,
+              post_count: 0
+            }
+          }
+          acc[countryId].post_count++
+          return acc
+        }, {} as any)
+
+        // En çok post atılan 4 ülkeyi al
+        const sortedCountries = Object.values(countryPostCounts)
+          .sort((a: any, b: any) => b.post_count - a.post_count)
+          .slice(0, 4)
+
+        setTopCountries(sortedCountries)
+        setMostPopularCountry(sortedCountries[0] || null)
+      } else {
+        // Post verisi yoksa, doğrudan Countries tablosundan çek
+        await fetchAllCountries()
+      }
+    } catch (error) {
+      console.error('Error fetching top countries:', error)
+      // Hata durumunda da Countries tablosundan çek
+      await fetchAllCountries()
+    }
+  }
+
+  const fetchAllCountries = async () => {
+    try {
+      const { data: countriesData, error: countriesError } = await supabase
+        .from('Countries')
+        .select('id, name, code, flag')
+        .limit(4)
+
+      if (countriesError) {
+        console.error('All countries fetch error:', countriesError)
+        return
+      }
+
+      if (countriesData) {
+        // Post sayısı olmadığı için varsayılan değer ver
+        const countriesWithCount = countriesData.map(country => ({
+          ...country,
+          post_count: 0
+        }))
+
+        setTopCountries(countriesWithCount)
+        setMostPopularCountry(countriesWithCount[0] || null)
+      }
+    } catch (error) {
+      console.error('Error fetching all countries:', error)
     }
   }
 
@@ -120,36 +188,47 @@ export function Navbar() {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
-                    Destinasyonlar
+                    Ülkeler
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-gray-100 to-gray-200 p-6 no-underline outline-none focus:shadow-md"
-                            href="/destinations"
-                          >
-                            <MapPin className="h-6 w-6 text-gray-600" />
-                            <div className="mb-2 mt-4 text-lg font-medium text-gray-900">
-                              Tüm Destinasyonlar
-                            </div>
-                            <p className="text-sm leading-tight text-gray-600">
-                              Dünya çapındaki en güzel gezilecek yerleri keşfedin
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      {destinations.map((destination) => (
+                      {mostPopularCountry && (
+                        <li className="row-span-3">
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-100 to-blue-200 p-6 no-underline outline-none focus:shadow-md"
+                              href={`/countries/${mostPopularCountry.code?.toLowerCase()}`}
+                            >
+                              <Globe className="h-6 w-6 text-blue-600" />
+                              <div className="mb-2 mt-4 text-lg font-medium text-gray-900 flex items-center gap-2">
+                                <span>{mostPopularCountry.flag}</span>
+                                {mostPopularCountry.name}
+                              </div>
+                              <p className="text-sm leading-tight text-gray-600">
+                                {mostPopularCountry.post_count > 0 
+                                  ? `En popüler destinasyon • ${mostPopularCountry.post_count} paylaşım`
+                                  : 'Popüler destinasyon • Keşfetmeye başla!'
+                                }
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      )}
+                      {topCountries.slice(1).map((country) => (
                         <ListItem
-                          key={destination.title}
-                          title={destination.title}
-                          href={destination.href}
-                          icon={destination.icon}
+                          key={country.id}
+                          title={`${country.flag} ${country.name}`}
+                          href={`/countries/${country.code?.toLowerCase()}`}
+                          icon={<MapPin className="w-4 h-4" />}
                         >
-                          {destination.description}
+                          {country.post_count > 0 ? `${country.post_count} paylaşım` : 'Keşfetmeye başla!'}
                         </ListItem>
                       ))}
+                      {topCountries.length === 0 && (
+                        <div className="col-span-2 text-center text-gray-500 py-4">
+                          Ülkeler yükleniyor...
+                        </div>
+                      )}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -285,8 +364,8 @@ export function Navbar() {
                 Ana Sayfa
               </Link>
               
-              <Link href="/destinations" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
-                Destinasyonlar  
+              <Link href="/countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Ülkeler  
               </Link>
               
               <Link href="/categories" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
@@ -355,6 +434,7 @@ function ListItem({
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & { 
   href: string; 
+  title: string;
   icon?: React.ReactNode;
 }) {
   return (
