@@ -257,14 +257,17 @@ export function Navbar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <NavigationMenuLink 
-                    className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`}
-                    href="/explore"
-                  >
-                    Keşfet
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
+                {user && (
+                  <NavigationMenuItem>
+                    <NavigationMenuLink 
+                      className={`${navigationMenuTriggerStyle()} text-gray-700 mb-4`}
+                      href="/createPost"
+                    >
+                      <PlusCircle className="w-4 h-4 mr-2 text-center" />
+                      Post Paylaş
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                )}
 
               </NavigationMenuList>
             </NavigationMenu>
@@ -291,15 +294,6 @@ export function Navbar() {
 
             {user ? (
               <>
-                {/* Create Post Button */}
-                <Link 
-                  href="/create"
-                  className="hidden sm:flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>Paylaş</span>
-                </Link>
-
                 {/* User Profile & Logout */}
                 <div className="flex items-center space-x-2">
                   <Link 
@@ -371,16 +365,12 @@ export function Navbar() {
               <Link href="/categories" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
                 Kategoriler
               </Link>
-              
-              <Link href="/explore" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
-                Keşfet
-              </Link>
 
               {user ? (
                 <>
                   <Link href="/create" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
                     <PlusCircle className="w-4 h-4 mr-3" />
-                    Paylaşım Yap
+                    Post Paylaş
                   </Link>
                   
                   <Link href="/profile" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
