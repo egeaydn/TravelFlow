@@ -368,7 +368,7 @@ export function Navbar() {
 
               {user ? (
                 <>
-                  <Link href="/create" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
+                  <Link href="/createPost" className="flex items-center px-3 py-2 text-gray-800 hover:bg-gray-100 rounded-lg font-medium">
                     <PlusCircle className="w-4 h-4 mr-3" />
                     Post Paylaş
                   </Link>

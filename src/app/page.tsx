@@ -3,12 +3,17 @@ import { createClient } from '@/utils/supabase/server'
 export default async function Page() {
   const supabase = await createClient()
 
-  console.log('Supabase client created')
   
   const { data: categories, error: categoriesError } = await supabase.from('Categories').select('*')
   const { data: countries, error: countriesError } = await supabase.from('Countries').select('*')
   const { data: posts, error: postsError } = await supabase.from('Posts').select('*, Countries(name, flag)')
 
+  /*
+    altdaki konsol çıktıları, projede hep kalabilir
+    fakat şuanda sadece verileri test etmek için varlar 
+    BU KISIMI SİLMEYİN!!!
+    BEDİRHAN HOCAM İSTERSE SİLEBİLİR AMA BEN KALMASINI TERCİH EDERİM :D
+  */
   console.log('Categories data:', categories)
   console.log('Countries data:', countries)
   console.log('Posts data:', posts)

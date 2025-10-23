@@ -1,7 +1,429 @@
-export default function CreatePost() {
-    return(
-        <div>
-            Create Post Page
-        </div>
-    )
-}
+// "use client"
+
+// import { useState, useEffect } from 'react'
+// import { useRouter } from 'next/navigation'
+// import { useAuth } from '@/contexts/AuthContext'
+// import { createClient } from '@/utils/supabase/client'
+// import { 
+//   Camera, 
+//   MapPin, 
+//   Tag, 
+//   FileText, 
+//   Save, 
+//   Eye, 
+//   Upload,
+//   X,
+//   AlertCircle
+// } from 'lucide-react'
+
+// interface Category {
+//   id: number
+//   name: string
+//   slug: string
+// }
+
+// interface Country {
+//   id: number
+//   name: string
+//   code: string
+//   flag: string
+// }
+
+// export default function CreatePost() {
+//   const router = useRouter()
+//   const { user, loading: authLoading } = useAuth()
+//   const supabase = createClient()
+
+//   // Form states
+//   const [title, setTitle] = useState('')
+//   const [content, setContent] = useState('')
+//   const [excerpt, setExcerpt] = useState('')
+//   const [categoryId, setCategoryId] = useState<number | null>(null)
+//   const [countryId, setCountryId] = useState<number | null>(null)
+//   const [imageUrl, setImageUrl] = useState('')
+//   const [tags, setTags] = useState('')
+  
+//   // Data states
+//   const [categories, setCategories] = useState<Category[]>([])
+//   const [countries, setCountries] = useState<Country[]>([])
+  
+//   // UI states
+//   const [loading, setLoading] = useState(false)
+//   const [isPreview, setIsPreview] = useState(false)
+//   const [error, setError] = useState('')
+//   const [success, setSuccess] = useState('')
+
+//   // Redirect if not authenticated
+//   useEffect(() => {
+//     if (!authLoading && !user) {
+//       router.push('/login')
+//     }
+//   }, [user, authLoading, router])
+
+//   // Fetch categories and countries
+//   useEffect(() => {
+//     if (!user) return // Kullanıcı yoksa veri çekme
+    
+//     const fetchData = async () => {
+//       try {
+//         const [categoriesRes, countriesRes] = await Promise.all([
+//           supabase.from('Categories').select('id, name, slug'),
+//           supabase.from('Countries').select('id, name, code, flag')
+//         ])
+
+//         if (categoriesRes.data) setCategories(categoriesRes.data)
+//         if (countriesRes.data) setCountries(countriesRes.data)
+//       } catch (error) {
+//         console.error('Error fetching data:', error)
+//       }
+//     }
+
+//     fetchData()
+//   }, [user])
+
+//   // Loading state - authentication henüz kontrol ediliyor
+//   if (authLoading) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center">
+//         <div className="text-center">
+//           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+//           <p className="text-gray-600">Yükleniyor...</p>
+//         </div>
+//       </div>
+//     )
+//   }
+
+//   // Not authenticated
+//   if (!user) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center">
+//         <div className="text-center">
+//           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+//           <h2 className="text-xl font-semibold text-gray-800 mb-2">Giriş Gerekli</h2>
+//           <p className="text-gray-600 mb-4">Post oluşturmak için giriş yapmalısınız.</p>
+//           <button
+//             onClick={() => router.push('/login')}
+//             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+//           >
+//             Giriş Yap
+//           </button>
+//         </div>
+//       </div>
+//     )
+//   }
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault()
+//     setError('')
+//     setSuccess('')
+//     setLoading(true)
+
+//     try {
+//       if (!title.trim() || !content.trim() || !categoryId || !countryId) {
+//         setError('Lütfen tüm zorunlu alanları doldurun.')
+//         return
+//       }
+
+//       const postData = {
+//         title: title.trim(),
+//         content: content.trim(),
+//         excerpt: excerpt.trim() || content.substring(0, 150) + '...',
+//         category_id: categoryId,
+//         country_id: countryId,
+//         author_id: null, // Geçici null - Posts tablosundaki author_id bigint/UUID uyumsuzluğu
+//         featured_image_url: imageUrl.trim() || null,
+//         tags: tags.trim() ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : null,
+//         status: 'published',
+//         created_at: new Date().toISOString()
+//       }
+
+//       const { data, error } = await supabase
+//         .from('Posts')
+//         .insert([postData])
+//         .select()
+
+//       if (error) {
+//         throw error
+//       }
+
+//       setSuccess('Post başarıyla oluşturuldu! 🎉')
+//       setTimeout(() => {
+//         router.push('/')
+//       }, 2000)
+
+//     } catch (error: any) {
+//       setError(error.message || 'Bir hata oluştu.')
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 pt-24 pb-12">
+//       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+//         {/* Header */}
+//         <div className="mb-8">
+//           <h1 className="text-3xl font-bold text-gray-900 mb-2">Yeni Post Oluştur</h1>
+//           <p className="text-gray-600">Seyahat deneyimlerinizi paylaşın ve keşfetmelerini sağlayın.</p>
+//         </div>
+
+//         {/* Success/Error Messages */}
+//         {error && (
+//           <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+//             <div className="flex items-center">
+//               <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+//               <span className="text-red-700">{error}</span>
+//             </div>
+//           </div>
+//         )}
+
+//         {success && (
+//           <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+//             <div className="flex items-center">
+//               <Save className="w-5 h-5 text-green-500 mr-3" />
+//               <span className="text-green-700">{success}</span>
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Toggle Preview */}
+//         <div className="mb-6 flex justify-end">
+//           <button
+//             type="button"
+//             onClick={() => setIsPreview(!isPreview)}
+//             className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+//           >
+//             <Eye className="w-4 h-4" />
+//             <span>{isPreview ? 'Düzenle' : 'Önizle'}</span>
+//           </button>
+//         </div>
+
+//         {isPreview ? (
+//           /* Preview Mode */
+//           <div className="bg-white rounded-lg shadow-lg p-8">
+//             <div className="mb-6">
+//               {imageUrl && (
+//                 <img 
+//                   src={imageUrl} 
+//                   alt={title}
+//                   className="w-full h-64 object-cover rounded-lg mb-6"
+//                 />
+//               )}
+//               <h1 className="text-3xl font-bold text-gray-900 mb-4">{title || 'Post Başlığı'}</h1>
+//               <div className="flex items-center space-x-4 text-sm text-gray-500 mb-6">
+//                 {categoryId && (
+//                   <span className="flex items-center">
+//                     <Tag className="w-4 h-4 mr-1" />
+//                     {categories.find(c => c.id === categoryId)?.name}
+//                   </span>
+//                 )}
+//                 {countryId && (
+//                   <span className="flex items-center">
+//                     <MapPin className="w-4 h-4 mr-1" />
+//                     {countries.find(c => c.id === countryId)?.flag} {countries.find(c => c.id === countryId)?.name}
+//                   </span>
+//                 )}
+//               </div>
+//               {excerpt && (
+//                 <p className="text-lg text-gray-600 mb-6 italic">{excerpt}</p>
+//               )}
+//               <div className="prose max-w-none">
+//                 {content.split('\n').map((paragraph, index) => (
+//                   <p key={index} className="mb-4">{paragraph}</p>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         ) : (
+//           /* Edit Mode */
+//           <form onSubmit={handleSubmit} className="space-y-8">
+            
+//             {/* Basic Info */}
+//             <div className="bg-white rounded-lg shadow-lg p-6">
+//               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+//                 <FileText className="w-5 h-5 mr-2" />
+//                 Temel Bilgiler
+//               </h2>
+              
+//               <div className="space-y-6">
+//                 {/* Title */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Başlık <span className="text-red-500">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     value={title}
+//                     onChange={(e) => setTitle(e.target.value)}
+//                     placeholder="Örn: İstanbul'da Gezilecek En Güzel Yerler"
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                     required
+//                   />
+//                 </div>
+
+//                 {/* Excerpt */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Kısa Açıklama
+//                   </label>
+//                   <textarea
+//                     value={excerpt}
+//                     onChange={(e) => setExcerpt(e.target.value)}
+//                     placeholder="Postunuzun kısa bir özeti (isteğe bağlı)"
+//                     rows={3}
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                   />
+//                 </div>
+
+//                 {/* Content */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     İçerik <span className="text-red-500">*</span>
+//                   </label>
+//                   <textarea
+//                     value={content}
+//                     onChange={(e) => setContent(e.target.value)}
+//                     placeholder="Seyahat deneyiminizi detaylı bir şekilde anlatın..."
+//                     rows={12}
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                     required
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Categories & Location */}
+//             <div className="bg-white rounded-lg shadow-lg p-6">
+//               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+//                 <Tag className="w-5 h-5 mr-2" />
+//                 Kategori & Lokasyon
+//               </h2>
+              
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 {/* Category */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Kategori <span className="text-red-500">*</span>
+//                   </label>
+//                   <select
+//                     value={categoryId || ''}
+//                     onChange={(e) => setCategoryId(Number(e.target.value))}
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                     required
+//                   >
+//                     <option value="">Kategori seçin</option>
+//                     {categories.map((category) => (
+//                       <option key={category.id} value={category.id}>
+//                         {category.name}
+//                       </option>
+//                     ))}
+//                   </select>
+//                 </div>
+
+//                 {/* Country */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Ülke <span className="text-red-500">*</span>
+//                   </label>
+//                   <select
+//                     value={countryId || ''}
+//                     onChange={(e) => setCountryId(Number(e.target.value))}
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                     required
+//                   >
+//                     <option value="">Ülke seçin</option>
+//                     {countries.map((country) => (
+//                       <option key={country.id} value={country.id}>
+//                         {country.flag} {country.name}
+//                       </option>
+//                     ))}
+//                   </select>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Media & Tags */}
+//             <div className="bg-white rounded-lg shadow-lg p-6">
+//               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+//                 <Camera className="w-5 h-5 mr-2" />
+//                 Medya & Etiketler
+//               </h2>
+              
+//               <div className="space-y-6">
+//                 {/* Image URL */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Fotoğraf URL'si
+//                   </label>
+//                   <input
+//                     type="url"
+//                     value={imageUrl}
+//                     onChange={(e) => setImageUrl(e.target.value)}
+//                     placeholder="https://example.com/image.jpg"
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                   />
+//                   {imageUrl && (
+//                     <div className="mt-4">
+//                       <img 
+//                         src={imageUrl} 
+//                         alt="Preview" 
+//                         className="w-32 h-32 object-cover rounded-lg border"
+//                         onError={(e) => {
+//                           e.currentTarget.style.display = 'none'
+//                         }}
+//                       />
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 {/* Tags */}
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     Etiketler
+//                   </label>
+//                   <input
+//                     type="text"
+//                     value={tags}
+//                     onChange={(e) => setTags(e.target.value)}
+//                     placeholder="seyahat, istanbul, tarihi yerler (virgülle ayırın)"
+//                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Submit Button */}
+//             <div className="flex justify-end space-x-4">
+//               <button
+//                 type="button"
+//                 onClick={() => router.push('/')}
+//                 className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+//               >
+//                 İptal
+//               </button>
+//               <button
+//                 type="submit"
+//                 disabled={loading}
+//                 className="flex items-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors"
+//               >
+//                 {loading ? (
+//                   <>
+//                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+//                     <span>Yayınlanıyor...</span>
+//                   </>
+//                 ) : (
+//                   <>
+//                     <Save className="w-4 h-4" />
+//                     <span>Yayınla</span>
+//                   </>
+//                 )}
+//               </button>
+//             </div>
+
+//           </form>
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
