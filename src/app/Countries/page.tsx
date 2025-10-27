@@ -44,8 +44,8 @@ export default async function CountriesPage() {
 
               <Link
                 key={country.id}
-                href={`/countries/${country.code?.toLowerCase()}`}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
+                href={`/Countries/${country.code}`}
+                className="bg-white-100 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <img
                   src={country.flag_url }
