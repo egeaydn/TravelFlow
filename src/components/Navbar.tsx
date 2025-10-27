@@ -363,7 +363,7 @@ export function Navbar() {
                 Ana Sayfa
               </Link>
 
-              <Link href="/Countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+              <Link href="/countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
                 Ülkeler
               </Link>
               
