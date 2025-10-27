@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { 
   MapPin, 
   Compass, 
@@ -37,6 +38,7 @@ import {
 // Statik destinasyonlar dinamik ülkeler ile değiştirildi
 
 export function Navbar() {
+  const router = useRouter()
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
@@ -187,7 +189,10 @@ export function Navbar() {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
+                  <NavigationMenuTrigger 
+                    className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => router.push('/Countries')}
+                  >
                     Ülkeler
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -357,9 +362,9 @@ export function Navbar() {
               <Link href="/" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
                 Ana Sayfa
               </Link>
-              
-              <Link href="/countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
-                Ülkeler  
+
+              <Link href="/Countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+                Ülkeler
               </Link>
               
               <Link href="/categories" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
