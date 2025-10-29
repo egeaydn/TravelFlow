@@ -29,6 +29,12 @@ interface Country {
   flag: string
 }
 
+interface City {
+  id: number
+  name: string
+  country_id: number
+}
+
 export default function CreatePost() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
@@ -40,12 +46,15 @@ export default function CreatePost() {
   const [excerpt, setExcerpt] = useState('')
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [countryId, setCountryId] = useState<number | null>(null)
+  const [cityId, setCityId] = useState<number | null>(null)
   const [imageUrl, setImageUrl] = useState('')
   const [tags, setTags] = useState('')
   
   // Data states
   const [categories, setCategories] = useState<Category[]>([])
   const [countries, setCountries] = useState<Country[]>([])
+  const [cities, setCities] = useState<City[]>([])
+  const [filteredCities, setFilteredCities] = useState<City[]>([])
   
   // UI states
   const [loading, setLoading] = useState(false)
@@ -66,13 +75,15 @@ export default function CreatePost() {
     
     const fetchData = async () => {
       try {
-        const [categoriesRes, countriesRes] = await Promise.all([
+        const [categoriesRes, countriesRes, citiesRes] = await Promise.all([
           supabase.from('Categories').select('id, name, slug'),
-          supabase.from('Countries').select('id, name, code, flag')
+          supabase.from('Countries').select('id, name, code, flag'),
+          supabase.from('Cities').select('id, name, country_id')
         ])
 
         if (categoriesRes.data) setCategories(categoriesRes.data)
         if (countriesRes.data) setCountries(countriesRes.data)
+        if (citiesRes.data) setCities(citiesRes.data)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -80,6 +91,18 @@ export default function CreatePost() {
 
     fetchData()
   }, [user])
+
+  // Filter cities based on selected country
+  useEffect(() => {
+    if (countryId) {
+      const filtered = cities.filter(city => city.country_id === countryId)
+      setFilteredCities(filtered)
+      setCityId(null) // Reset city selection when country changes
+    } else {
+      setFilteredCities([])
+      setCityId(null)
+    }
+  }, [countryId, cities])
 
   // Loading state - authentication henüz kontrol ediliyor
   if (authLoading) {
@@ -130,6 +153,7 @@ export default function CreatePost() {
         excerpt: excerpt.trim() || content.substring(0, 150) + '...',
         category_id: categoryId,
         country_id: countryId,
+        city_id: cityId || null, // Opsiyonel - şehir seçilmeyebilir
         author_id: null, // Geçici null - Posts tablosundaki author_id bigint/UUID uyumsuzluğu
         featured_image_url: imageUrl.trim() || null,
         tags: tags.trim() ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : null,
@@ -222,6 +246,7 @@ export default function CreatePost() {
                   <span className="flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
                     {countries.find(c => c.id === countryId)?.flag} {countries.find(c => c.id === countryId)?.name}
+                    {cityId && `, ${filteredCities.find(c => c.id === cityId)?.name}`}
                   </span>
                 )}
               </div>
@@ -341,6 +366,32 @@ export default function CreatePost() {
                   </select>
                 </div>
               </div>
+
+              {/* City Selection - Only show when country is selected */}
+              {countryId && (
+                <div className="mt-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Şehir (Opsiyonel)
+                  </label>
+                  <select
+                    value={cityId || ''}
+                    onChange={(e) => setCityId(e.target.value ? Number(e.target.value) : null)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  >
+                    <option value="">Şehir seçin (isteğe bağlı)</option>
+                    {filteredCities.map((city) => (
+                      <option key={city.id} value={city.id}>
+                        {city.name}
+                      </option>
+                    ))}
+                  </select>
+                  {filteredCities.length === 0 && (
+                    <p className="mt-2 text-sm text-gray-500">
+                      Bu ülke için henüz şehir bilgisi bulunmuyor.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Media & Tags */}
