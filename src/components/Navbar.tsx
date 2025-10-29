@@ -299,10 +299,9 @@ export function Navbar() {
 
             {user ? (
               <>
-                {/* User Profile & Logout */}
                 <div className="flex items-center space-x-2">
                   <Link 
-                    href="/profile"
+                    href="/UserProfiles"
                     className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
