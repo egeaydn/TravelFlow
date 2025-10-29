@@ -202,7 +202,7 @@ export function Navbar() {
                           <NavigationMenuLink asChild>
                             <a
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-100 to-blue-200 p-6 no-underline outline-none focus:shadow-md"
-                              href={`/countries/${mostPopularCountry.code?.toLowerCase()}`}
+                              href={`/Countries/${mostPopularCountry.code}`}
                             >
                               <Globe className="h-6 w-6 text-blue-600" />
                               <div className="mb-2 mt-4 text-lg font-medium text-gray-900 flex items-center gap-2">
@@ -223,7 +223,7 @@ export function Navbar() {
                         <ListItem
                           key={country.id}
                           title={`${country.flag} ${country.name}`}
-                          href={`/countries/${country.code?.toLowerCase()}`}
+                          href={`/Countries/${country.code}`}
                           icon={<MapPin className="w-4 h-4" />}
                         >
                           {country.post_count > 0 ? `${country.post_count} paylaşım` : 'Keşfetmeye başla!'}
@@ -362,7 +362,7 @@ export function Navbar() {
                 Ana Sayfa
               </Link>
 
-              <Link href="/countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
+              <Link href="/Countries" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg">
                 Ülkeler
               </Link>
               

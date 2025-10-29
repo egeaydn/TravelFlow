@@ -61,7 +61,9 @@ export default async function Page() {
             {countries.map((country: any) => (
               <div key={country.id} className="bg-white p-4 rounded-lg shadow border">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{country.flag}</span>
+                  <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-full">
+                    <span className="text-2xl">{country.flag}</span>
+                  </div>
                   <div>
                     <h3 className="font-semibold">{country.name}</h3>
                     <p className="text-sm text-gray-500">Kod: {country.code}</p>
