@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import Link from 'next/link'
 
 interface CategoryPageProps {
   params: {
@@ -59,22 +60,34 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   />
                 )}
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
-                    {post.title}
-                  </h3>
+                  <Link href={`/post/${post.slug || post.id}`}>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer">
+                      {post.title}
+                    </h3>
+                  </Link>
                   {post.excerpt && (
-                    <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                    <p className="text-gray-600 mb-4 line-clamp-3">
+                      {post.excerpt.length > 80 ? post.excerpt.substring(0, 80) + '...' : post.excerpt}
+                    </p>
                   )}
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
                     {post.Countries && (
                       <span className="flex items-center">
                         <span className="mr-1">{post.Countries.flag}</span>
                         {post.Countries.name}
                       </span>
                     )}
-                    <span>
-                      {new Date(post.created_at).toLocaleDateString('tr-TR')}
+                    <span className="flex items-center">
+                       {new Date(post.created_at).toLocaleDateString('tr-TR')}
                     </span>
+                  </div>
+                  <div className="mt-4">
+                    <Link 
+                      href={`/post/${post.slug || post.id}`}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
+                    >
+                      Devamını Oku →
+                    </Link>
                   </div>
                 </div>
               </div>

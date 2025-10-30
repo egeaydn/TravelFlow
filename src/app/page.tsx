@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import Link from 'next/link'
 
 export default async function Page() {
   const supabase = await createClient()
@@ -47,17 +48,19 @@ export default async function Page() {
         </div>
       </div>
 
-     
+      {/* aşağıya postları şimdilik basdtım */}
 
       {posts && posts.length > 0 && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Son Postlar</h2>
           <div className="space-y-4">
             {posts.map((post: any) => (
-              <div key={post.id} className="bg-white p-6 rounded-lg shadow border">
+              <div key={post.id} className="bg-white p-6 rounded-lg shadow border hover:shadow-lg transition-shadow">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
+                    <Link href={`/post/${post.slug || post.id}`} className="block">
+                      <h3 className="font-semibold text-lg mb-2 hover:text-blue-600 transition-colors">{post.title}</h3>
+                    </Link>
                     {post.excerpt && (
                       <p className="text-gray-600 mb-3">{post.excerpt}</p>
                     )}
@@ -76,7 +79,16 @@ export default async function Page() {
                          {new Date(post.created_at).toLocaleDateString('tr-TR')}
                       </span>
                     </div>
+                    <div className="mt-4">
+                      <Link 
+                        href={`/post/${post.slug || post.id}`}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
+                      >
+                        Devamını Oku →
+                      </Link>
+                    </div>
                   </div>
+                 
                 </div>
               </div>
             ))}

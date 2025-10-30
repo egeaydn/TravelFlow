@@ -144,6 +144,7 @@ export default function CreatePost() {
         return
       }
 
+
       const postData = {
         title: title.trim(),
         content: content.trim(),
