@@ -206,7 +206,6 @@ export function Navbar() {
                             >
                               <Globe className="h-6 w-6 text-blue-600" />
                               <div className="mb-2 mt-4 text-lg font-medium text-gray-900 flex items-center gap-2">
-                                <span>{mostPopularCountry.flag}</span>
                                 {mostPopularCountry.name}
                               </div>
                               <p className="text-sm leading-tight text-gray-600">
@@ -222,7 +221,7 @@ export function Navbar() {
                       {topCountries.slice(1).map((country) => (
                         <ListItem
                           key={country.id}
-                          title={`${country.flag} ${country.name}`}
+                          title={`${country.name}`}
                           href={`/Countries/${country.code}`}
                           icon={<MapPin className="w-4 h-4" />}
                         >

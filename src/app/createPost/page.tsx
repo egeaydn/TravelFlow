@@ -154,7 +154,7 @@ export default function CreatePost() {
         category_id: categoryId,
         country_id: countryId,
         city_id: cityId || null, // Opsiyonel - şehir seçilmeyebilir
-        author_id: null, // Geçici null - Posts tablosundaki author_id bigint/UUID uyumsuzluğu
+        user_id: user.id, // Postu oluşturan kullanıcının ID'si
         featured_image_url: imageUrl.trim() || null,
         tags: tags.trim() ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : null,
         status: 'published',

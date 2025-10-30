@@ -3,20 +3,13 @@ import { createClient } from '@/utils/supabase/server'
 export default async function Page() {
   const supabase = await createClient()
 
-  
   const { data: categories, error: categoriesError } = await supabase.from('Categories').select('*')
   const { data: countries, error: countriesError } = await supabase.from('Countries').select('*')
-  const { data: posts, error: postsError } = await supabase.from('Posts').select('*, Countries(name, flag)')
-
-  /*
-    altdaki konsol çıktıları, projede hep kalabilir
-    fakat şuanda sadece verileri test etmek için varlar 
-    BU KISIMI SİLMEYİN!!!
-    BEDİRHAN HOCAM İSTERSE SİLEBİLİR AMA BEN KALMASINI TERCİH EDERİM :D
-  */
-  console.log('Categories data:', categories)
-  console.log('Countries data:', countries)
-  console.log('Posts data:', posts)
+  const { data: posts, error: postsError } = await supabase.from('Posts').select(`
+    *, 
+    Countries(name, flag),
+    UserProfiles!fk_posts_user_id(full_name)
+  `)
 
   if (categoriesError || countriesError || postsError) {
     const error = categoriesError || countriesError || postsError
@@ -26,7 +19,7 @@ export default async function Page() {
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800"><strong>Hata:</strong> {error?.message}</p>
           <p className="text-red-600 mt-2"><strong>Kod:</strong> {error?.code}</p>
-          <p className="text-red-600 mt-2"><strong>Detay:</strong> {error?.details}</p>
+          <p className="text-red-600 mt-2"><strong>Detay:</strong> {error?.details ? JSON.stringify(error.details, null, 2) : 'Detay yok'}</p>
         </div>
       </div>
     )
@@ -54,43 +47,37 @@ export default async function Page() {
         </div>
       </div>
 
-      {countries && countries.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Ülkeler</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {countries.map((country: any) => (
-              <div key={country.id} className="bg-white p-4 rounded-lg shadow border">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-full">
-                    <span className="text-2xl">{country.flag}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{country.name}</h3>
-                    <p className="text-sm text-gray-500">Kod: {country.code}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+     
 
       {posts && posts.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Postlar</h2>
+          <h2 className="text-2xl font-bold mb-4">Son Postlar</h2>
           <div className="space-y-4">
             {posts.map((post: any) => (
-              <div key={post.id} className="bg-white p-4 rounded-lg shadow border">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold text-lg">{post.title}</h3>
-                    {post.Countries && (
-                      <p className="text-sm text-gray-600 mt-1">
-                        {post.Countries.flag} {post.Countries.name}
-                      </p>
+              <div key={post.id} className="bg-white p-6 rounded-lg shadow border">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
+                    {post.excerpt && (
+                      <p className="text-gray-600 mb-3">{post.excerpt}</p>
                     )}
+                    <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <span className="flex items-center">
+                         {`${post.UserProfiles?.full_name || ''}`.trim() || 'Anonim'}
+                      </span>
+                      
+                      {post.Countries && (
+                        <span className="flex items-center">
+                           {post.Countries.flag} {post.Countries.name}
+                        </span>
+                      )}
+                      
+                      <span>
+                         {new Date(post.created_at).toLocaleDateString('tr-TR')}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right text-sm text-gray-400">
+                  <div className="text-right text-sm text-gray-400 ml-4">
                     ID: {post.id}
                   </div>
                 </div>
@@ -100,29 +87,6 @@ export default async function Page() {
         </div>
       )}
 
-      {categories && categories.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Kategoriler</h2>
-          <ul className="space-y-2">
-            {categories.map((category: any) => (
-              <li key={category.id} className="bg-white p-4 rounded-lg shadow border">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold text-lg">{category.name}</h3>
-                    {category.description && (
-                      <p className="text-gray-600 mt-1">{category.description}</p>
-                    )}
-                    <p className="text-sm text-gray-500 mt-2">Slug: {category.slug}</p>
-                  </div>
-                  <div className="text-right text-sm text-gray-400">
-                    ID: {category.id}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   )
 }
