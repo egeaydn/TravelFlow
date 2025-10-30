@@ -77,9 +77,6 @@ export default async function Page() {
                       </span>
                     </div>
                   </div>
-                  <div className="text-right text-sm text-gray-400 ml-4">
-                    ID: {post.id}
-                  </div>
                 </div>
               </div>
             ))}

@@ -40,7 +40,6 @@ export default function CreatePost() {
   const { user, loading: authLoading } = useAuth()
   const supabase = createClient()
 
-  // Form states
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [excerpt, setExcerpt] = useState('')
@@ -50,26 +49,22 @@ export default function CreatePost() {
   const [imageUrl, setImageUrl] = useState('')
   const [tags, setTags] = useState('')
   
-  // Data states
   const [categories, setCategories] = useState<Category[]>([])
   const [countries, setCountries] = useState<Country[]>([])
   const [cities, setCities] = useState<City[]>([])
   const [filteredCities, setFilteredCities] = useState<City[]>([])
   
-  // UI states
   const [loading, setLoading] = useState(false)
   const [isPreview, setIsPreview] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/login')
     }
   }, [user, authLoading, router])
 
-  // Fetch categories and countries
   useEffect(() => {
     if (!user) return // Kullanıcı yoksa veri çekme
     
@@ -83,7 +78,10 @@ export default function CreatePost() {
 
         if (categoriesRes.data) setCategories(categoriesRes.data)
         if (countriesRes.data) setCountries(countriesRes.data)
-        if (citiesRes.data) setCities(citiesRes.data)
+        if (citiesRes.data) {
+          setCities(citiesRes.data)
+          console.log('Cities data:', citiesRes.data) // Debug için
+        }
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -92,19 +90,19 @@ export default function CreatePost() {
     fetchData()
   }, [user])
 
-  // Filter cities based on selected country
   useEffect(() => {
     if (countryId) {
       const filtered = cities.filter(city => city.country_id === countryId)
       setFilteredCities(filtered)
-      setCityId(null) // Reset city selection when country changes
+      console.log('Filtered cities for country', countryId, ':', filtered) 
+      setCityId(null) 
     } else {
       setFilteredCities([])
       setCityId(null)
     }
   }, [countryId, cities])
 
-  // Loading state - authentication henüz kontrol ediliyor
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -116,7 +114,6 @@ export default function CreatePost() {
     )
   }
 
-  // Not authenticated
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -153,13 +150,16 @@ export default function CreatePost() {
         excerpt: excerpt.trim() || content.substring(0, 150) + '...',
         category_id: categoryId,
         country_id: countryId,
-        city_id: cityId || null, // Opsiyonel - şehir seçilmeyebilir
+        city_id: cityId, // Şehir seçilmişse ID'si, seçilmemişse null
         user_id: user.id, // Postu oluşturan kullanıcının ID'si
         featured_image_url: imageUrl.trim() || null,
         tags: tags.trim() ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : null,
         status: 'published',
         created_at: new Date().toISOString()
       }
+
+      console.log('Post Data:', postData)
+      console.log('City ID:', cityId) 
 
       const { data, error } = await supabase
         .from('Posts')
@@ -211,7 +211,6 @@ export default function CreatePost() {
           </div>
         )}
 
-        {/* Toggle Preview */}
         <div className="mb-6 flex justify-end">
           <button
             type="button"
@@ -224,7 +223,6 @@ export default function CreatePost() {
         </div>
 
         {isPreview ? (
-          /* Preview Mode */
           <div className="bg-white rounded-lg shadow-lg p-8">
             <div className="mb-6">
               {imageUrl && (
@@ -261,10 +259,8 @@ export default function CreatePost() {
             </div>
           </div>
         ) : (
-          /* Edit Mode */
           <form onSubmit={handleSubmit} className="space-y-8">
             
-            {/* Basic Info */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
                 <FileText className="w-5 h-5 mr-2" />
@@ -272,7 +268,6 @@ export default function CreatePost() {
               </h2>
               
               <div className="space-y-6">
-                {/* Title */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Başlık <span className="text-red-500">*</span>
@@ -287,7 +282,6 @@ export default function CreatePost() {
                   />
                 </div>
 
-                {/* Excerpt */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Kısa Açıklama
@@ -301,7 +295,6 @@ export default function CreatePost() {
                   />
                 </div>
 
-                {/* Content */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     İçerik <span className="text-red-500">*</span>
@@ -318,7 +311,6 @@ export default function CreatePost() {
               </div>
             </div>
 
-            {/* Categories & Location */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
                 <Tag className="w-5 h-5 mr-2" />
@@ -326,7 +318,6 @@ export default function CreatePost() {
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Category */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Kategori <span className="text-red-500">*</span>
@@ -346,7 +337,6 @@ export default function CreatePost() {
                   </select>
                 </div>
 
-                {/* Country */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Ülke <span className="text-red-500">*</span>
@@ -367,7 +357,6 @@ export default function CreatePost() {
                 </div>
               </div>
 
-              {/* City Selection - Only show when country is selected */}
               {countryId && (
                 <div className="mt-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -375,7 +364,11 @@ export default function CreatePost() {
                   </label>
                   <select
                     value={cityId || ''}
-                    onChange={(e) => setCityId(e.target.value ? Number(e.target.value) : null)}
+                    onChange={(e) => {
+                      const selectedCityId = e.target.value ? Number(e.target.value) : null
+                      console.log('Selected city ID:', selectedCityId) // Debug için
+                      setCityId(selectedCityId)
+                    }}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
                   >
                     <option value="">Şehir seçin (isteğe bağlı)</option>
@@ -394,7 +387,6 @@ export default function CreatePost() {
               )}
             </div>
 
-            {/* Media & Tags */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
                 <Camera className="w-5 h-5 mr-2" />
@@ -402,7 +394,6 @@ export default function CreatePost() {
               </h2>
               
               <div className="space-y-6">
-                {/* Image URL */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Fotoğraf URL'si
@@ -428,7 +419,6 @@ export default function CreatePost() {
                   )}
                 </div>
 
-                {/* Tags */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Etiketler
@@ -444,7 +434,6 @@ export default function CreatePost() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
