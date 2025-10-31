@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MapPin, Calendar, User, Tag } from 'lucide-react'
+import CommentPartialView from '@/components/CommentPartiaView'
 
 interface PostDetailPageProps {
   params: {
@@ -71,7 +72,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           </Link>
         </div>
 
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <article className="bg-white ded-lg shadow-lg overflow-hidden">
           
           {post.featured_image_url && (
             <img 
@@ -87,7 +88,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               {post.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6 pb-6 border-b">
+            <div className="flex flex-wrap itemsroun-center gap-4 text-sm text-gray-600 mb-6 pb-6 border-b">
               
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-2" />
@@ -127,7 +128,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             </div>
 
             {post.excerpt && (
-              <div className="text-lg text-gray-700 mb-8 p-4 bg-gray-50 rounded-lg italic">
+              <div className="text-lg text-gray-700 mb-8 p-4 bg-gray-50 italic">
                 {post.excerpt}
               </div>
             )}
@@ -158,6 +159,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
           </div>
         </article>
+            
+        <CommentPartialView />
 
       </div>
     </div>
