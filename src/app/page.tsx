@@ -11,21 +11,7 @@ export default async function Page() {
     Countries(name, flag),
     UserProfiles!fk_posts_user_id(full_name)
   `)
-
-  if (categoriesError || countriesError || postsError) {
-    const error = categoriesError || countriesError || postsError
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6 text-red-600">Supabase Hatası</h1>
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800"><strong>Hata:</strong> {error?.message}</p>
-          <p className="text-red-600 mt-2"><strong>Kod:</strong> {error?.code}</p>
-          <p className="text-red-600 mt-2"><strong>Detay:</strong> {error?.details ? JSON.stringify(error.details, null, 2) : 'Detay yok'}</p>
-        </div>
-      </div>
-    )
-  }
-
+  //aşşağıdaki kısım bir adminpanaeli görevi görüyor şuanlık burada duruyor
   return (
     <div className="container mx-auto px-4 py-8 pt-30">
       <h1 className='font-bold text-5xl text-red-500 text-center'>Burada şuanlık Test verileri tutulmaktadır ayağını denk al!!!</h1>
