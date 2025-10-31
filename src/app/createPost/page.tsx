@@ -81,6 +81,9 @@ export default function CreatePost() {
         if (citiesRes.data) {
           setCities(citiesRes.data)
           console.log('Cities data:', citiesRes.data) // Debug için
+          console.log('Cities count:', citiesRes.data.length) // Debug için
+        } else {
+          console.log('No cities data or error:', citiesRes.error) // Debug için
         }
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -159,8 +162,18 @@ export default function CreatePost() {
         created_at: new Date().toISOString()
       }
 
+      console.log('=== POST SUBMIT DEBUG ===')
+      console.log('City ID State:', cityId)
+      console.log('City ID Type:', typeof cityId)
       console.log('Post Data:', postData)
-      console.log('City ID:', cityId) 
+      console.log('Filtered Cities:', filteredCities)
+      console.log('Country ID:', countryId)
+
+      // Eğer cityId varsa ama null geçiyorsa zorla set et
+      if (cityId) {
+        postData.city_id = Number(cityId)
+        console.log('Forced City ID:', postData.city_id)
+      }
 
       const { data, error } = await supabase
         .from('Posts')
@@ -191,6 +204,17 @@ export default function CreatePost() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Yeni Post Oluştur</h1>
           <p className="text-gray-600">Seyahat deneyimlerinizi paylaşın ve keşfetmelerini sağlayın.</p>
+        </div>
+
+        {/* Debug Panel */}
+        <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-yellow-800 mb-2">🐛 Debug Bilgileri:</h3>
+          <div className="text-xs text-yellow-700 space-y-1">
+            <div>Country ID: {countryId || 'Seçilmedi'}</div>
+            <div>City ID: {cityId || 'Seçilmedi'}</div>
+            <div>Filtered Cities: {filteredCities.length} şehir</div>
+            <div>Cities Total: {cities.length} şehir</div>
+          </div>
         </div>
 
         {/* Success/Error Messages */}
@@ -364,10 +388,11 @@ export default function CreatePost() {
                     Şehir (Opsiyonel)
                   </label>
                   <select
-                    value={cityId || ''}
+                    value={cityId?.toString() || ''}
                     onChange={(e) => {
                       const selectedCityId = e.target.value ? Number(e.target.value) : null
                       console.log('Selected city ID:', selectedCityId) // Debug için
+                      console.log('Select value:', e.target.value) // Debug için
                       setCityId(selectedCityId)
                     }}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"

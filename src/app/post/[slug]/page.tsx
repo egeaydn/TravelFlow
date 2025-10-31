@@ -12,7 +12,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const supabase = await createClient()
   
   const { slug } = await params
-  const postSlug = slug
+  const postSlug = decodeURIComponent(slug)
   let post, error;
   
   const slugResult = await supabase

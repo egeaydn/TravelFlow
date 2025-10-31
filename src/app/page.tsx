@@ -74,7 +74,10 @@ export default async function Page() {
                       </Link>
                     </div>
                   </div>
-                 
+                  <div className="text-right text-sm text-gray-400 ml-4">
+                    <div>ID: {post.id}</div>
+                    <div>Slug: {post.slug || 'Boş'}</div>
+                  </div>
                 </div>
               </div>
             ))}
