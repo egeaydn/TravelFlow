@@ -88,10 +88,8 @@ export default function UserProfilesPage() {
   return (
     <div className="min-h-screen pt-24 px-4 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        {/* Profile Header */}
         <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
-            {/* Avatar */}
             <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
               {profile.avatar_url ? (
                 <img 
