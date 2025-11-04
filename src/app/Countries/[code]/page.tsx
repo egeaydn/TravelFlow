@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MapPin, Calendar, Eye, ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
+import LikeButton from '@/components/LikeButton'
 
 interface CountryDetailPageProps {
   params: {
@@ -164,6 +165,10 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                             <span>{post.Countries.code}</span>
                           </>
                         )}
+                      </div>
+
+                      <div className="ml-auto">
+                        <LikeButton targetId={post.id} targetType="post" size="sm" />
                       </div>
                     </div>
 

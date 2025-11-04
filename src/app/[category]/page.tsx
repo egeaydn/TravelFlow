@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import LikeButton from '@/components/LikeButton'
 
 interface CategoryPageProps {
   params: {
@@ -80,6 +81,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                     <span className="flex items-center">
                        {new Date(post.created_at).toLocaleDateString('tr-TR')}
                     </span>
+                    <div className="ml-auto">
+                      <LikeButton targetId={post.id} targetType="post" size="sm" />
+                    </div>
                   </div>
                   <div className="mt-4">
                     <Link 

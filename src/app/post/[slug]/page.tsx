@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MapPin, Calendar, User, Tag } from 'lucide-react'
 import CommentPartialView from '@/components/CommentPartiaView'
+import LikeButton from '@/components/LikeButton'
 
 interface PostDetailPageProps {
   params: {
@@ -125,6 +126,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                   <span>{post.Categories.name}</span>
                 </Link>
               )}
+
+              <div className="ml-auto">{/* Like Buttonunu buraya eledim kullanıcılar buraya gelim kendi id'leri ile beğenebiiyor ve bu beğebiler suğabasedeki like tablosuna ekleneiyor */}
+                <LikeButton targetId={post.id} targetType="post" />
+              </div>
             </div>
 
             {post.excerpt && (

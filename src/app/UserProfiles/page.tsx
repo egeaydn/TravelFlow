@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client'
 import { useEffect, useState } from 'react'
 import { User, Mail, Calendar, MapPin, Globe, UserCheck, FileText, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
+import LikeButton from '@/components/LikeButton'
 
 interface UserProfile {
   id: number
@@ -199,21 +200,14 @@ export default function UserProfilesPage() {
               
               <div className="flex justify-center md:justify-start gap-6 text-sm">
                 <div className="text-center">
-                  <span className="font-semibold text-gray-900">{profile.total_posts}</span>
+                  <span className="font-semibold text-gray-900">{userPosts.length}</span>
                   <p className="text-gray-600">Paylaşım</p>
                 </div>
                 <div className="text-center">
-                  <span className="font-semibold text-gray-900">{profile.total_followers}</span>
-                  <p className="text-gray-600">Takipçi</p>
+                  <span className="font-semibold text-gray-900">{userComments.length}</span>
+                  <p className="text-gray-600">Yorum</p>
                 </div>
-                <div className="text-center">
-                  <span className="font-semibold text-gray-900">{profile.total_following}</span>
-                  <p className="text-gray-600">Takip</p>
-                </div>
-                <div className="text-center">
-                  <span className="font-semibold text-gray-900">{profile.country_visited}</span>
-                  <p className="text-gray-600">Ülke</p>
-                </div>
+               
               </div>
             </div>
           </div>
@@ -312,27 +306,31 @@ export default function UserProfilesPage() {
               <div className="space-y-4">
                 {userPosts.length > 0 ? (
                   userPosts.map((post) => (
-                    <Link
+                    <div
                       key={post.id}
-                      href={`/post/${post.slug}`}
-                      className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                      className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
-                            {post.title}
-                          </h3>
-                          <p className="text-sm text-gray-500 mt-1">
-                            {new Date(post.created_at).toLocaleDateString('tr-TR', {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric'
-                            })}
-                          </p>
+                        <div className="flex-1">
+                          <Link href={`/post/${post.slug}`}>
+                            <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
+                              {post.title}
+                            </h3>
+                          </Link>
+                          <div className="flex items-center gap-4 mt-2">
+                            <p className="text-sm text-gray-500">
+                              {new Date(post.created_at).toLocaleDateString('tr-TR', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                              })}
+                            </p>
+                            <LikeButton targetId={post.id} targetType="post" size="sm" />
+                          </div>
                         </div>
                         <FileText className="w-5 h-5 text-gray-400" />
                       </div>
-                    </Link>
+                    </div>
                   ))
                 ) : (
                   <div className="text-center py-12">
