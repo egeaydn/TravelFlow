@@ -160,7 +160,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           </div>
         </article>
             
-        <CommentPartialView />
+        <CommentPartialView postId={post.id} />
 
       </div>
     </div>
