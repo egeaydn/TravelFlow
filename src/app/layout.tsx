@@ -19,11 +19,9 @@ export default function RootLayout({
     <html lang="tr">
       <body className="bg-gray-50">
         <AuthProvider>
-          <Navbar />
           <main className="min-h-screen">
             {children}
           </main>
-          <Footer />
         </AuthProvider>
       </body>
     </html>
