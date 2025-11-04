@@ -3,7 +3,8 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { createClient } from '@/utils/supabase/client'
 import { useEffect, useState } from 'react'
-import { User, Mail, Calendar, MapPin, Globe, UserCheck } from 'lucide-react'
+import { User, Mail, Calendar, MapPin, Globe, UserCheck, FileText, MessageCircle } from 'lucide-react'
+import Link from 'next/link'
 
 interface UserProfile {
   id: number
@@ -24,15 +25,38 @@ interface UserProfile {
   created_at: string
 }
 
+interface Post {
+  id: string
+  title: string
+  slug: string
+  created_at: string
+}
+
+interface Comment {
+  id: string
+  content: string
+  created_at: string
+  post_id: string
+  Posts?: {
+    title: string
+    slug: string
+  } | null
+}
+
 export default function UserProfilesPage() {
   const { user, loading } = useAuth()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [profileLoading, setProfileLoading] = useState(true)
+  const [userPosts, setUserPosts] = useState<Post[]>([])
+  const [userComments, setUserComments] = useState<Comment[]>([])
+  const [activeTab, setActiveTab] = useState<'posts' | 'comments'>('posts')
   const supabase = createClient()
 
   useEffect(() => {
     if (user && !loading) {
       fetchUserProfile()
+      fetchUserPosts()
+      fetchUserComments()
     }
   }, [user, loading])
 
@@ -50,6 +74,65 @@ export default function UserProfilesPage() {
       console.error('Profile yüklenemedi:', error)
     } finally {
       setProfileLoading(false)
+    }
+  }
+
+  const fetchUserPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('Posts')
+        .select(`
+          id,
+          title,
+          slug,
+          created_at,
+          country_id,
+          category_id
+        `)
+        .eq('user_id', user?.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setUserPosts(data as Post[] || [])
+    } catch (error) {
+      console.error('Posts yüklenemedi:', error)
+    }
+  }
+
+  const fetchUserComments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('Comments')
+        .select(`
+          id,
+          content,
+          created_at,
+          post_id
+        `)
+        .eq('author_id', user?.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      
+      // Post bilgilerini ayrı olarak çek
+      const commentsWithPosts = await Promise.all(
+        (data || []).map(async (comment) => {
+          const { data: postData } = await supabase
+            .from('Posts')
+            .select('title, slug')
+            .eq('id', comment.post_id)
+            .single()
+          
+          return {
+            ...comment,
+            Posts: postData
+          }
+        })
+      )
+      
+      setUserComments(commentsWithPosts)
+    } catch (error) {
+      console.error('Comments yüklenemedi:', error)
     }
   }
 
@@ -188,6 +271,117 @@ export default function UserProfilesPage() {
                 </span>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Posts ve Comments Tabs */}
+        <div className="bg-white rounded-lg shadow-sm mt-6">
+          <div className="border-b">
+            <div className="flex">
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`flex-1 px-6 py-4 text-center font-semibold transition-colors ${
+                  activeTab === 'posts'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  <span>Paylaşımlarım ({userPosts.length})</span>
+                </div>
+              </button>
+              <button
+                onClick={() => setActiveTab('comments')}
+                className={`flex-1 px-6 py-4 text-center font-semibold transition-colors ${
+                  activeTab === 'comments'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Yorumlarım ({userComments.length})</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6">
+            {activeTab === 'posts' ? (
+              <div className="space-y-4">
+                {userPosts.length > 0 ? (
+                  userPosts.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/post/${post.slug}`}
+                      className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600">
+                            {post.title}
+                          </h3>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {new Date(post.created_at).toLocaleDateString('tr-TR', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric'
+                            })}
+                          </p>
+                        </div>
+                        <FileText className="w-5 h-5 text-gray-400" />
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-center py-12">
+                    <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                    <p className="text-gray-500">Henüz paylaşım yapmadınız.</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {userComments.length > 0 ? (
+                  userComments.map((comment) => (
+                    <div key={comment.id} className="p-4 border rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <MessageCircle className="w-5 h-5 text-gray-400 mt-1" />
+                        <div className="flex-1">
+                          <p className="text-gray-700 mb-2">{comment.content}</p>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span>
+                              {new Date(comment.created_at).toLocaleDateString('tr-TR', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}
+                            </span>
+                            {comment.Posts && (
+                              <>
+                                <span>•</span>
+                                <Link
+                                  href={`/post/${comment.Posts.slug}`}
+                                  className="text-blue-600 hover:underline"
+                                >
+                                  {comment.Posts.title}
+                                </Link>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12">
+                    <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                    <p className="text-gray-500">Henüz yorum yapmadınız.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

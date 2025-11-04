@@ -45,7 +45,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
         .from('Comments')
         .select(`
           *,
-          UserProfiles!author_id(full_name)
+          UserProfiles!Comments_author_id_fkey(full_name)
         `)
         .eq('post_id', String(postId))
         .order('created_at', { ascending: false })
@@ -55,9 +55,6 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
         console.error('Error details:', error.message, error.code, error.details)
       } else if (data) {
         console.log('Comments data:', data)
-        data.forEach(comment => {
-          console.log('Comment author:', comment.author_id, 'Profile:', comment.UserProfiles)
-        })
         setComments(data)
       }
     } catch (error) {
@@ -199,8 +196,6 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                       day: 'numeric',
                       month: 'short',
                       year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
                     })}
                   </span>
                 </div>
