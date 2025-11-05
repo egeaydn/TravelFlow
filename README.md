@@ -9,7 +9,7 @@
 
 **TravelFlow**, kullanıcıların seyahat deneyimlerini paylaşabildiği, keşfedebildiği ve etkileşime girebildiği modern bir blog platformudur. Gezginler gezdikleri yerleri, hikayelerini ve fotoğraflarını dünya ile paylaşabilir.
 
-🌐 **Canlı Demo:** [travelflow.com](https://travelflow.com) _(domain adresinizi buraya ekleyin)_
+🌐 **Canlı Demo:** [travelflow.com](https://www.travelflow.live/) _(domain adresinizi buraya ekleyin)_
 
 ## ✨ Özellikler
 
