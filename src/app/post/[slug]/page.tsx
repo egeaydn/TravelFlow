@@ -4,12 +4,37 @@ import Link from 'next/link'
 import { ArrowLeft, MapPin, Calendar, User, Tag } from 'lucide-react'
 import CommentPartialView from '@/components/CommentPartiaView'
 import LikeButton from '@/components/LikeButton'
+import type { Metadata } from 'next'
 
 interface PostDetailPageProps {
   params: {
     slug: string
   }
 }
+
+export async function generateMetadata({ params }: PostDetailPageProps): Promise<Metadata> {
+  const supabase = await createClient()
+  const { slug } = await params
+  const postSlug = decodeURIComponent(slug)
+  
+  const { data: post } = await supabase
+    .from('Posts')
+    .select('title, excerpt')
+    .eq('slug', postSlug)
+    .single()
+
+  if (!post) {
+    return {
+      title: 'Gönderi Bulunamadı - TravelFlow',
+    }
+  }
+
+  return {
+    title: `${post.title} - TravelFlow`,
+    description: post.excerpt || 'Seyahat deneyimi',
+  }
+}
+
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const supabase = await createClient()
   

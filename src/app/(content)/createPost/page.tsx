@@ -65,6 +65,11 @@ export default function CreatePost() {
     }
   }, [user, authLoading, router])
 
+  // Sayfa title'ını güncelle
+  useEffect(() => {
+    document.title = 'Gönderi Oluştur - TravelFlow'
+  }, [])
+
   useEffect(() => {
     if (!user) return // Kullanıcı yoksa veri çekme
     

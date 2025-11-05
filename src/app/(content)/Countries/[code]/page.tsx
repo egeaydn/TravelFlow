@@ -11,6 +11,28 @@ interface CountryDetailPageProps {
   }
 }
 
+export async function generateMetadata({ params }: CountryDetailPageProps): Promise<Metadata> {
+  const supabase = await createClient()
+  const { code } = await params
+  
+  const { data: country } = await supabase
+    .from('Countries')
+    .select('name, flag')
+    .eq('code', code.toUpperCase())
+    .single()
+
+  if (!country) {
+    return {
+      title: 'Ülke Bulunamadı - TravelFlow',
+    }
+  }
+
+  return {
+    title: `${country.name} - TravelFlow`,
+    description: `${country.name} seyahat deneyimleri ve gezi rehberi`,
+  }
+}
+
 export default async function CountryDetailPage({ params }: CountryDetailPageProps) {
   const supabase = await createClient()
   
@@ -227,20 +249,3 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
   )
 }
 
-// Generate metadata for SEO
-export async function generateMetadata({ params }: CountryDetailPageProps): Promise<Metadata> {
-  const supabase = await createClient()
-  
-  const { data: country } = await supabase
-    .from('Countries')
-    .select('name, flag')
-    .eq('code', params.code.toUpperCase())
-    .single()
-
-  return {
-    title: country ? `${country.name} ${country.flag} - TravelFlow` : 'Ülke - TravelFlow',
-    description: country 
-      ? `${country.name}'daki seyahat hikayeleri ve deneyimleri. TravelFlow'da keşfedin.`
-      : 'Seyahat hikayeleri ve deneyimleri',
-  }
-}

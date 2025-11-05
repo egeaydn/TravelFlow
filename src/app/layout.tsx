@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: 'TravelFlow - Seyahat Blog Platformu',
   description: 'Seyahat deneyimlerini keşfet, paylaş ve ilham al. Dünya çapındaki gezginlerle bağlan.',
   keywords: 'seyahat, blog, destinasyon, gezi, macera, keşfet',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

@@ -1,10 +1,33 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import LikeButton from '@/components/LikeButton'
+import type { Metadata } from 'next'
 
 interface CategoryPageProps {
   params: {
     category: string
+  }
+}
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const supabase = await createClient()
+  const { category: categorySlug } = await params
+  
+  const { data: category } = await supabase
+    .from('Categories')
+    .select('name, description')
+    .eq('slug', categorySlug)
+    .single()
+
+  if (!category) {
+    return {
+      title: 'Kategori Bulunamadı - TravelFlow',
+    }
+  }
+
+  return {
+    title: `${category.name} - TravelFlow`,
+    description: category.description || `${category.name} kategorisindeki seyahat deneyimleri`,
   }
 }
 

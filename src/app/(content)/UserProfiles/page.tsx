@@ -61,6 +61,15 @@ export default function UserProfilesPage() {
     }
   }, [user, loading])
 
+  // Sayfa title'ını güncelle
+  useEffect(() => {
+    if (profile) {
+      document.title = `${profile.full_name} - Profilim | TravelFlow`
+    } else if (!loading && !profileLoading) {
+      document.title = 'Profilim - TravelFlow'
+    }
+  }, [profile, loading, profileLoading])
+
   const fetchUserProfile = async () => {
     try {
       const { data, error } = await supabase
