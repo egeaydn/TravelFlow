@@ -1,202 +1,249 @@
-TravelFlow
+# 🌍 TravelFlow
 
-"Kullanıcıların gezdiği yerleri, deneyimlerini ve fotoğraflarını paylaşabildiği modern bir seyahat blog platformu."
+> Modern seyahat deneyimlerini paylaşma ve keşfetme platformu
 
-Bu depo, TypeScript ile yazılmış Next.js (App Router) tabanlı bir proje iskeletidir. Aşağıda proje amacı, teknoloji seçimi, klasör yapısı, kurulum ve geliştirme adımları yer alır.
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.5-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.0-38bdf8)](https://tailwindcss.com/)
 
-## Proje Amacı
+**TravelFlow**, kullanıcıların seyahat deneyimlerini paylaşabildiği, keşfedebildiği ve etkileşime girebildiği modern bir blog platformudur. Gezginler gezdikleri yerleri, hikayelerini ve fotoğraflarını dünya ile paylaşabilir.
 
-Kullanıcılar kayıt / giriş yaptıktan sonra kendi gezilerini paylaşır. Her paylaşımda başlık, açıklama, konum, tarih ve fotoğraf bulunur. Diğer kullanıcılar gönderilere yorum yapabilir veya beğenebilir. Arayüz çoklu dil desteğine (Türkçe / İngilizce) sahiptir. İçerik yönetimi Sanity CMS (veya tercihe göre Firebase) üzerinden yapılır.
+🌐 **Canlı Demo:** [travelflow.com](https://travelflow.com) _(domain adresinizi buraya ekleyin)_
 
-## Öne Çıkan Özellikler
+## ✨ Özellikler
 
-- Kullanıcı kimlik doğrulama (Clerk veya Firebase Auth)
-- Gönderi (post) oluşturma / listeleme / silme
-- Her gönderi: başlık, açıklama, ülke/şehir, tarih, fotoğraf
-- Yorum sistemi (auth zorunlu)
-- Beğeniler (kullanıcı başına 1 kez)
-- Çoklu dil desteği (Next-Intl ile `en` ve `tr`)
-- Sanity CMS ile içerik yönetimi
-- TailwindCSS + shadcn/ui ile modern, responsive UI
+### 🔐 Kullanıcı Yönetimi
+- **Güvenli Kimlik Doğrulama**: Supabase Auth ile email/password
+- **Otomatik Profil Oluşturma**: Kayıt sırasında trigger ile UserProfile
+- **Profil Yönetimi**: Kullanıcı bilgileri, avatar, bio
+- **Kişisel Dashboard**: Kendi paylaşımlarınızı ve yorumlarınızı görüntüleme
 
-## Teknoloji Yığını
+### 📝 İçerik Yönetimi
+- **Zengin Post Editörü**: Başlık, içerik, özet, etiketler
+- **Görsel Yönetimi**: Featured image yükleme
+- **Kategori Sistemi**: Seyahat, Kültür, Yemek, Macera, Rehber
+- **Lokasyon Seçimi**: Ülke ve şehir bazlı filtreleme
+- **Slug Sistemi**: SEO-friendly URL'ler (Türkçe karakter desteği)
 
-- Framework: Next.js 15+ (App Router)
-- Dil: TypeScript
-- UI: TailwindCSS + shadcn/ui
-- Auth: Clerk veya Firebase Auth
-- CMS / Veri: Sanity (önerilen) veya Firebase Firestore
-- Çoklu Dil: next-intl
-- API: Next.js Route Handlers (app/api)
-- Hosting: Vercel (production)
+### 💬 Sosyal Özellikler
+- **Yorum Sistemi**: Post'lara yorum yapma
+- **Beğeni Sistemi**: Post'ları beğenme (kullanıcı başına 1 kez)
+- **Profil Görüntüleme**: Kullanıcıların paylaşımlarını inceleme
+- **Real-time İstatistikler**: Beğeni sayıları anlık güncelleme
 
-## Proje Yapısı (önerilen)
+### 🗺️ Keşif
+- **Ülke Sayfaları**: Ülke bazlı gezi deneyimleri
+- **Kategori Filtreleme**: İlgi alanlarına göre içerik bulma
+- **Breadcrumb Navigasyon**: Kolay sayfa geçişleri
+- **Arama**: Post, ülke ve şehir araması _(geliştirme aşamasında)_
 
+### 🎨 Kullanıcı Deneyimi
+- **Responsive Tasarım**: Mobil, tablet ve masaüstü uyumlu
+- **Modern UI**: TailwindCSS + shadcn/ui bileşenleri
+- **Smooth Animations**: Geçiş efektleri ve yükleme durumları
+- **Dark Mode Ready**: Karanlık mod desteği _(yakında)_
+
+## 🛠️ Teknoloji Yığını
+
+### Frontend
+- **Framework**: [Next.js 15.5.5](https://nextjs.org/) (App Router + Turbopack)
+- **Dil**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [TailwindCSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: React Context API
+
+### Backend & Database
+- **BaaS**: [Supabase](https://supabase.com/)
+- **Database**: PostgreSQL
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage _(yapılandırma aşamasında)_
+- **Real-time**: Supabase Realtime subscriptions
+
+### Özellikler
+- **RLS Policies**: Row Level Security ile veri güvenliği
+- **Database Triggers**: Otomatik profil oluşturma
+- **Foreign Keys**: İlişkisel veri bütünlüğü
+- **Indexes**: Performans optimizasyonu
+
+## 📁 Proje Yapısı
+
+```
 travelflow/
- ├─ app/
- │   ├─ page.tsx                  -> Ana sayfa (son paylaşımlar)
- │   ├─ [slug]/page.tsx           -> Tekil blog detayı
- │   ├─ create/page.tsx           -> Yeni paylaşım formu
- │   ├─ profile/page.tsx          -> Kullanıcının gönderileri
- │   └─ api/
- │       ├─ posts/
- │       │   └─ route.ts          -> GET, POST, DELETE işlemleri
- │       └─ comments/
- │           └─ route.ts          -> POST yorum ekleme
- ├─ components/
- │   ├─ Navbar.tsx
- │   ├─ PostCard.tsx
- │   ├─ CommentBox.tsx
- │   ├─ LanguageSwitcher.tsx
- │   └─ Footer.tsx
- ├─ lib/
- │   ├─ sanityClient.ts
- │   ├─ auth.ts
- │   └─ translations/
- ├─ styles/
- │   └─ globals.css
- ├─ sanity/
- │   ├─ schemas/
- │   │   ├─ post.js
- │   │   └─ comment.js
- │   └─ sanity.config.ts
- └─ package.json
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   ├── (content)/           # Content layout grubu
+│   │   │   ├── [category]/      # Dinamik kategori sayfaları
+│   │   │   ├── Countries/       # Ülke sayfaları
+│   │   │   │   └── [code]/      # Dinamik ülke detay
+│   │   │   ├── createPost/      # Post oluşturma
+│   │   │   ├── UserProfiles/    # Kullanıcı profili
+│   │   │   └── layout.tsx       # Content layout
+│   │   ├── post/
+│   │   │   └── [slug]/          # Dinamik post detay
+│   │   ├── login/               # Giriş sayfası
+│   │   ├── register/            # Kayıt sayfası
+│   │   ├── layout.tsx           # Root layout
+│   │   └── page.tsx             # Ana sayfa
+│   ├── components/              # Reusable components
+│   │   ├── Navbar.tsx           # Navigation bar
+│   │   ├── Footer.tsx           # Footer
+│   │   ├── BreadcrumbNav.tsx    # Breadcrumb navigation
+│   │   ├── LikeButton.tsx       # Beğeni butonu
+│   │   └── CommentPartiaView.tsx # Yorum sistemi
+│   ├── contexts/                # React contexts
+│   │   └── AuthContext.tsx      # Authentication context
+│   ├── utils/                   # Utility functions
+│   │   └── supabase/
+│   │       ├── client.ts        # Client-side Supabase
+│   │       └── server.ts        # Server-side Supabase
+│   └── hooks/                   # Custom hooks
+│       └── useIsMobile.tsx      # Mobile detection
+├── public/                      # Static files
+│   └── favicon.svg             # Site icon
+├── sql/                        # Database scripts
+│   ├── fix_likes_table.sql
+│   ├── create_comments_table.sql
+│   └── debug_userprofiles.sql
+└── package.json
 
-> Not: Mevcut çalışma alanınızda halihazırda `app/` ve `src/app/` klasörleri olabilir. Yukarıdaki yapı projenin mantıksal düzenini gösterir.
-
-## Kurulum (lokal geliştirme)
-
-1. Depoyu kopyalayın / klonlayın:
-
-```powershell
-git clone <repo-url> travelflow; cd travelflow
 ```
 
-2. Bağımlılıkları yükleyin:
+## 🚀 Kurulum ve Çalıştırma
 
-```powershell
+### Gereksinimler
+- Node.js 18+ 
+- npm, yarn, pnpm veya bun
+- Supabase hesabı
+
+### 1. Projeyi Klonlayın
+
+```bash
+git clone https://github.com/egeaydn/TravelFlow.git
+cd travelflow
+```
+
+### 2. Bağımlılıkları Yükleyin
+
+```bash
 npm install
+# veya
+yarn install
+# veya
+pnpm install
 ```
 
-3. Geliştirme sunucusunu başlatın:
+### 3. Çevre Değişkenlerini Ayarlayın
 
-```powershell
-npm run dev
-```
+`.env.local` dosyası oluşturun:
 
-Uygulama varsayılan olarak http://localhost:3000 üzerinde çalışacaktır.
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-## Örnek .env (çevresel değişkenler)
-
-Projede kullanılacak servisler için aşağıdaki gibi değişkenleri `.env.local` içinde tanımlayın:
-
-```
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
-SANITY_DATASET=production
-SANITY_API_TOKEN=your_sanity_write_token
-
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
-CLERK_SECRET_KEY=your_clerk_secret
-
-NEXT_PUBLIC_FIREBASE_API_KEY=...
-FIREBASE_AUTH_DOMAIN=...
-FIREBASE_PROJECT_ID=...
-
+# Site URL
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-
-NEXT_PUBLIC_NEXT_INTL_LOCALES=en,tr
 ```
 
-Servislerin her biri opsiyoneldir; Clerk veya Firebase tercihine göre gerekli değişkenleri ekleyin. Sanity ile yazma işlemi yapmak için `SANITY_API_TOKEN` gereklidir.
+### 4. Veritabanını Yapılandırın
 
-## Sanity - Şema Örnekleri
+Supabase Dashboard'da SQL Editor'ı kullanarak `sql/` klasöründeki scriptleri çalıştırın:
 
-Sanity kullanacaksanız `sanity/schemas/post.js` ve `sanity/schemas/comment.js` içinde aşağıdaki alanlar olmalıdır (özet):
+1. `create_comments_table.sql` - Yorumlar tablosu
+2. `fix_likes_table.sql` - Beğeniler tablosu
+3. UserProfiles trigger'ını ayarlayın (Supabase docs)
 
-- post: title, slug, body, publishedAt, location (country, city), photos (image array), author reference
-- comment: author reference, post reference, text, createdAt
-
-Bu şemalar Sanity Studio içinde uygun şekilde publish edilebilir.
-
-## API Endpoints (plan)
-
-- `GET /api/posts` - tüm paylaşımları listeler
-- `POST /api/posts` - yeni paylaşım oluşturur (auth zorunlu)
-- `DELETE /api/posts/:id` - paylaşımı siler (sahip veya admin)
-- `POST /api/comments` - bir posta yorum ekler (auth zorunlu)
-
-Bu route'ları `app/api/*/route.ts` şeklinde Next.js 15 Route Handlers ile uygulayın ve `lib/sanityClient.ts` üzerinden Sanity'ye bağlayın.
-
-## Çoklu Dil (i18n)
-
-`next-intl` kullanarak `locales/en.json` ve `locales/tr.json` dosyaları oluşturun. Dil anahtarlarını sayfalarda ve bileşenlerde kullanın. `components/LanguageSwitcher.tsx` ile kullanıcıya dil seçeneği sunun.
-
-## UI ve Stil
-
-TailwindCSS ve shadcn/ui bileşen kütüphanesi ile minimal, responsive ve erişilebilir bir tasarım hedefleyin. Global stiller `styles/globals.css` içinde toplanır.
-
-## Geliştirme Yol Haritası (kısa)
-
-1. Proje kurulumu ve temel Next.js yapılandırması
-2. UI bileşenleri: `Navbar`, `PostCard`, `CommentBox`, `LanguageSwitcher`, `Footer`
-3. Auth (Clerk veya Firebase) entegre etme
-4. Sanity projelerini ve şemalarını oluşturma
-5. `lib/sanityClient.ts` ve API route'larını yazma
-6. Çoklu dil (next-intl) uygulama
-7. Test, build ve Vercel deploy
-
-## Deploy (Vercel)
-
-1. Vercel hesabı oluşturun ve repo'yu bağlayın.
-2. Vercel dashboard'da gerekli çevresel değişkenleri (`SANITY_*`, `CLERK_*`, `NEXT_PUBLIC_SITE_URL`, vb.) ekleyin.
-3. Branch'ı seçip `Deploy` yapın veya CLI ile `vercel --prod` komutunu kullanın.
-
-## Katkıda Bulunma
-
-1. Yeni bir branch oluşturun: `git checkout -b feature/your-feature`
-2. Değişiklikleri commit edin ve push'layın
-3. Pull request açın
-
-## Lisans
-
-Bu proje varsayılan olarak MIT lisansı ile dağıtılabilir. (İsterseniz `LICENSE` ekleyebilirim.)
-
----
-
-Hazırladığım bu README, proje planınızı doğrudan yansıtır ve geliştiriciler için bir başlangıç rehberidir. Bir sonraki adımda isterseniz `app/` iskelet sayfalarını ve temel bileşenleri ekleyebilirim.
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+### 5. Geliştirme Sunucusunu Başlatın
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Uygulama [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📊 Veritabanı Şeması
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Ana Tablolar
 
-## Learn More
+- **UserProfiles**: Kullanıcı profil bilgileri
+- **Posts**: Blog gönderileri
+- **Categories**: Post kategorileri
+- **Countries**: Ülke bilgileri
+- **Cities**: Şehir bilgileri
+- **Comments**: Post yorumları
+- **Likes**: Post beğenileri
 
-To learn more about Next.js, take a look at the following resources:
+### İlişkiler
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+UserProfiles (1) ─→ (N) Posts
+Posts (1) ─→ (N) Comments
+Posts (1) ─→ (N) Likes
+UserProfiles (1) ─→ (N) Comments
+UserProfiles (1) ─→ (N) Likes
+Countries (1) ─→ (N) Posts
+Categories (1) ─→ (N) Posts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔒 Güvenlik
 
-## Deploy on Vercel
+- **Row Level Security (RLS)**: Tüm tablolarda aktif
+- **Authentication Required**: Hassas işlemler için zorunlu
+- **Input Validation**: Client ve server-side doğrulama
+- **SQL Injection Prevention**: Parametreli sorgular
+- **XSS Protection**: Next.js built-in koruması
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Vercel (Önerilen)
+
+1. GitHub repo'nuzu Vercel'e bağlayın
+2. Environment variables'ı ekleyin
+3. Deploy butonuna basın
+
+```bash
+# Veya CLI ile
+npm install -g vercel
+vercel --prod
+```
+
+### Diğer Platformlar
+
+Next.js, çeşitli platformlarda deploy edilebilir:
+- Netlify
+- AWS Amplify
+- Railway
+- Render
+
+## 🤝 Katkıda Bulunma
+
+Katkılarınızı bekliyoruz! Lütfen şu adımları izleyin:
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit edin (`git commit -m 'feat: Add amazing feature'`)
+4. Push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+## 📝 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+
+## 👥 Geliştirici
+
+**Ege Aydın**
+- GitHub: [@egeaydn](https://github.com/egeaydn)
+- Email: [iletisim@travelflow.com](mailto:iletisim@travelflow.com)
+
+## 🙏 Teşekkürler
+
+- [Next.js](https://nextjs.org/) - React framework
+- [Supabase](https://supabase.com/) - Backend infrastructure
+- [shadcn/ui](https://ui.shadcn.com/) - UI components
+- [Lucide](https://lucide.dev/) - Beautiful icons
+
+---
+
+⭐ Bu projeyi beğendiyseniz, yıldız vermeyi unutmayın!
