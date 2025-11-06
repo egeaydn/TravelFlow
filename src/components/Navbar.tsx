@@ -18,6 +18,18 @@ import {
   UserPlus,
   LogOut
 } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 
@@ -307,13 +319,29 @@ export function Navbar() {
                       <User className="w-4 h-4 text-white" />
                     </div>
                   </Link>
-                  <button
-                    onClick={() => signOut()}
-                    className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                    title="Çıkış Yap"
-                  >
-                    <LogOut className="w-5 h-5" />
-                  </button>
+                  
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button
+                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Çıkış Yap"
+                      >
+                        <LogOut className="w-5 h-5" />
+                      </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Çıkış yapmak istediğinize emin misiniz?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Çıkış yaptıktan sonra tekrar giriş yapmanız gerekecek.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>İptal</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => signOut()}>Çıkış Yap</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </>
             ) : (
@@ -381,13 +409,28 @@ export function Navbar() {
                     Profilim
                   </Link>
                   
-                  <button
-                    onClick={() => signOut()}
-                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg w-full text-left"
-                  >
-                    <LogOut className="w-4 h-4 mr-3" />
-                    Çıkış Yap
-                  </button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button
+                        className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg w-full text-left"
+                      >
+                        <LogOut className="w-4 h-4 mr-3" />
+                        Çıkış Yap
+                      </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Çıkış yapmak istediğinize emin misiniz?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Çıkış yaptıktan sonra tekrar giriş yapmanız gerekecek.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>İptal</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => signOut()}>Çıkış Yap</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </>
               ) : (
                 <div className="space-y-2 pt-2 border-t border-gray-200">
