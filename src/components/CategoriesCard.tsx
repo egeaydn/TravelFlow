@@ -37,15 +37,7 @@ const getCategoryIcon = (slug: string) => {
 
 // Kategori renklerini eşleştir
 const getCategoryColor = (slug: string) => {
-  const colorMap: { [key: string]: string } = {
-    'seyahat': 'from-blue-500 to-cyan-500',
-    'kultur': 'from-purple-500 to-pink-500',
-    'yemek': 'from-orange-500 to-red-500',
-    'macera': 'from-green-500 to-emerald-500',
-    'rehber': 'from-yellow-500 to-orange-500',
-  }
-  
-  return colorMap[slug.toLowerCase()] || 'from-gray-500 to-slate-500'
+  return 'from-gray-500 to-slate-500'
 }
 
 export default function CategoriesCard() {
@@ -118,9 +110,7 @@ export default function CategoriesCard() {
           >
             <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-2 hover:border-gray-300">
               <CardHeader>
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${getCategoryColor(category.slug)} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  {getCategoryIcon(category.slug)}
-                </div>
+               
                 
                 <CardTitle className="text-2xl font-bold text-gray-800 group-hover:text-gray-900 flex items-center justify-between">
                   {category.name}
@@ -132,12 +122,7 @@ export default function CategoriesCard() {
                 </CardDescription>
               </CardHeader>
               
-              <CardContent>
-                <div className="flex items-center text-sm text-gray-500">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  <span>Keşfetmeye başla</span>
-                </div>
-              </CardContent>
+              
             </Card>
           </Link>
         ))}
