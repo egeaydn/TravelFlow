@@ -29,8 +29,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import { useState, useEffect } from "react"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -56,6 +54,7 @@ export function Navbar() {
   const [categories, setCategories] = useState<any[]>([])
   const [topCountries, setTopCountries] = useState<any[]>([])
   const [mostPopularCountry, setMostPopularCountry] = useState<any>(null)
+  const [userProfile, setUserProfile] = useState<any>(null)
   const { user, signOut, loading } = useAuth()
 
   const supabase = createClient()
@@ -63,7 +62,28 @@ export function Navbar() {
   useEffect(() => {
     fetchCategories()
     fetchTopCountries()
-  }, [])
+    if (user) {
+      fetchUserProfile()
+    }
+  }, [user])
+
+  const fetchUserProfile = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('UserProfiles')
+        .select('avatar_url, full_name')
+        .eq('user_id', user?.id)
+        .single()
+
+      if (error) {
+        console.error('Profile fetch error:', error)
+      } else if (data) {
+        setUserProfile(data)
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error)
+    }
+  }
 
   const fetchCategories = async () => {
     try {
@@ -315,9 +335,17 @@ export function Navbar() {
                     href="/UserProfiles"
                     className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                   >
-                    <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-white" />
-                    </div>
+                    {userProfile?.avatar_url ? (
+                      <img 
+                        src={userProfile.avatar_url} 
+                        alt={userProfile.full_name || 'User'}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                        <User className="w-4 h-4 text-white" />
+                      </div>
+                    )}
                   </Link>
                   
                   <AlertDialog>

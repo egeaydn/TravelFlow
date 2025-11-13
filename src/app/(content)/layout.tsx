@@ -2,8 +2,11 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import { Navbar } from './../../components/Navbar';
 import { BreadcrumbNav } from './../../components/BreadcrumbNav';
+
+const Navbar = dynamic(() => import("./../../components/Navbar").then(mod => ({ default: mod.Navbar })), {
+    ssr: false,
+});
 
 const Footer = dynamic(() => import("./../../components/Footer").then(mod => ({ default: mod.Footer })), {
     ssr: false,

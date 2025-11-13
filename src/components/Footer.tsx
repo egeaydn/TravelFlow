@@ -1,6 +1,9 @@
 "use client"
 
 import Link from "next/link";
+import { Compass } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 type Education = {
     title: string;
@@ -18,41 +21,25 @@ type Links = {
 }
 
 export function Footer() {
+    const [categories, setCategories] = useState<any[]>([])
+    const supabase = createClient()
+
+    useEffect(() => {
+        fetchCategories()
+    }, [])
+
+    const fetchCategories = async () => {
+        const { data } = await supabase
+            .from('Categories')
+            .select('id, name, slug')
+            .limit(7)
+        
+        if (data) setCategories(data)
+    }
 
     const phone = "0212 555 0123";
     const email = "info@travelflow.com";
     const year = new Date().getFullYear();
-
-    const travelCategories: Education[] = [
-        {
-            title: "Şehir Turları",
-            href: "/categories/city",
-        },
-        {
-            title: "Doğa & Macera",
-            href: "/categories/adventure"
-        },
-        {
-            title: "Gastronomi",
-            href: "/categories/food",
-        },
-        {
-            title: "Kültür & Sanat",
-            href: "/categories/culture",
-        },
-        {
-            title: "Avrupa Turları",
-            href: "/destinations/europe",
-        },
-        {
-            title: "Asya Maceraları",
-            href: "/destinations/asia",
-        },
-        {
-            title: "Doğa Rotaları",
-            href: "/destinations/nature",
-        }
-    ]
 
     const travelInfo: Campus[] = [
         {
@@ -72,23 +59,23 @@ export function Footer() {
         },
         {
             title: "Destinasyonlar",
-            href: "/destinations",
+            href: "/Countries",
         },
         {
             title: "Kategoriler",
-            href: "/categories"
+            href: "/Categories"
         },
         {
             title: "Keşfet",
-            href: "/explore"
+            href: "/"
         },
         {
             title: "Paylaş",
-            href: "/create"
+            href: "/createPost"
         },
         {
             title: "Profil",
-            href: "/profile"
+            href: "/UserProfiles"
         }
     ]
 
@@ -125,12 +112,11 @@ export function Footer() {
                                 Keşfet
                             </h2>
                             <ul className="space-y-2">
-                                {travelCategories.map((category: Education, index: number) => (
-                                    <li key={index} className="text-gray-400 hover:text-gray-100 transition-colors">
-                                        <Link href={category.href} >{category.title}</Link>
+                                {categories.map((category, index: number) => (
+                                    <li key={category.id} className="text-gray-400 hover:text-gray-100 transition-colors">
+                                        <Link href={`/${category.slug}`}>{category.name}</Link>
                                     </li>
                                 ))}
-
                             </ul>
                         </div>
                         <div className="pl-5 pb-2 border-l border-slate-500/10 h-fit">
@@ -144,10 +130,10 @@ export function Footer() {
                                     </li>
                                 ))}
                                 <li className="text-gray-300">
-                                    📞 {phone}
+                                     {phone}
                                 </li>
                                 <li className="text-gray-300">
-                                    ✉️ {email}
+                                     {email}
                                 </li>
 
                             </ul>
@@ -164,8 +150,18 @@ export function Footer() {
                                 ))}
                             </ul>
                         </div>
-                        <div className="h-fit items-center justify-center flex mt-10 ">
-                            {/* <Logo fontSize={160} /> */}
+                        <div className="h-fit flex items-center justify-center">
+                            <Link href="/" className="flex flex-col items-center gap-3 group">
+                                <div className="relative">
+                                    <div className="relative">
+                                        <Compass className="w-20 h-20 text-white"/>
+                                    </div>
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="text-2xl font-bold text-white tracking-wider">TravelFlow</h3>
+                                    <p className="text-gray-400 text-sm mt-1">Keşfet, Paylaş, İlham Al</p>
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
