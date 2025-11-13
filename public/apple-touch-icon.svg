@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <rect width="180" height="180" fill="#4b5563" rx="40"/>
+  <g transform="translate(30, 30)">
+    <circle cx="60" cy="60" r="50" fill="none" stroke="white" stroke-width="8"/>
+    <polygon points="80 40 70 70 40 80 50 50 80 40" fill="white"/>
+  </g>
+</svg>

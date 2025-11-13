@@ -22,7 +22,7 @@ export default function Page() {
       name: 'TravelFlow',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://travelflow.live/logo.png',
+        url: 'https://travelflow.live/logo-512.svg',
       },
     },
   }
