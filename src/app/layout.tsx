@@ -22,12 +22,20 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico' },
+      { url: '/compassicon.png', type: 'image/png', sizes: 'any' },
+      { url: '/compassicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/compassicon.png', type: 'image/png', sizes: '16x16' },
     ],
-    shortcut: '/favicon.svg',
+    shortcut: '/compassicon.png',
     apple: [
-      { url: '/apple-touch-icon.svg', type: 'image/svg+xml' },
+      { url: '/compassicon.png', type: 'image/png', sizes: '180x180' },
+    ],
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        url: '/compassicon.png',
+      },
     ],
   },
   manifest: '/site.webmanifest',
@@ -40,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'TravelFlow',
     images: [
       {
-        url: 'https://travelflow.live/logo-512.svg',
+        url: 'https://travelflow.live/compassicon.png',
         width: 512,
         height: 512,
         alt: 'TravelFlow - Seyahat Blog Platformu',
@@ -51,7 +59,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'TravelFlow - Seyahat Blog Platformu',
     description: 'Keşfet. Dünyanın en güzel yerlerini keşfet • Seyahat Et. Yeni maceralar ve deneyimler • Paylaş. Hikayelerini dünya ile paylaş',
-    images: ['https://travelflow.live/logo-512.svg'],
+    images: ['https://travelflow.live/compassicon.png'],
     creator: '@travelflow',
   },
   robots: {
@@ -78,7 +86,8 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" type="image/png" href="/compassicon.png" />
+        <link rel="apple-touch-icon" href="/compassicon.png" />
         <link rel="canonical" href="https://travelflow.live" />
         <meta name="theme-color" content="#4b5563" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

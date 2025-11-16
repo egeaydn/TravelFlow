@@ -5,7 +5,6 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { 
   MapPin, 
-  Compass, 
   Camera, 
   Heart, 
   User, 
@@ -18,6 +17,7 @@ import {
   UserPlus,
   LogOut
 } from "lucide-react"
+import Image from "next/image"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -195,8 +195,8 @@ export function Navbar() {
           {/* Logo & Brand */}
           <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="relative">
-              <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center shadow-md">
-                <Compass className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-md overflow-hidden">
+                <Image src="/compassicon.png" alt="TravelFlow" width={40} height={40} className="object-cover" />
               </div>
             </div>
             <div className="hidden sm:block">

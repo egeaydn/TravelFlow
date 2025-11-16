@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { Compass } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
@@ -153,8 +153,8 @@ export function Footer() {
                         <div className="h-fit flex items-center justify-center">
                             <Link href="/" className="flex flex-col items-center gap-3 group">
                                 <div className="relative">
-                                    <div className="relative">
-                                        <Compass className="w-20 h-20 text-white"/>
+                                    <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                                        <Image src="/compassicon.png" alt="TravelFlow" width={80} height={80} className="object-cover"/>
                                     </div>
                                 </div>
                                 <div className="text-center">

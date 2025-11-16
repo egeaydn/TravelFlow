@@ -1,7 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
-  <rect width="180" height="180" fill="#4b5563" rx="40"/>
-  <g transform="translate(30, 30)">
-    <circle cx="60" cy="60" r="50" fill="none" stroke="white" stroke-width="8"/>
-    <polygon points="80 40 70 70 40 80 50 50 80 40" fill="white"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="bgApple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4b5563;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#374151;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" fill="url(#bgApple)" rx="40"/>
+  <circle cx="90" cy="90" r="60" fill="none" stroke="#ffffff" stroke-width="8"/>
+  <circle cx="90" cy="90" r="50" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <polygon points="90,45 100,90 90,135 80,90" fill="#ef4444"/>
+  <polygon points="45,90 90,80 135,90 90,100" fill="#ffffff"/>
+  <circle cx="90" cy="90" r="8" fill="#ffffff"/>
+  <circle cx="90" cy="90" r="5" fill="#1f2937"/>
 </svg>
