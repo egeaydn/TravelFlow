@@ -20,24 +20,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  icons: {
-    icon: [
-      { url: '/compassicon.png', type: 'image/png', sizes: 'any' },
-      { url: '/compassicon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/compassicon.png', type: 'image/png', sizes: '16x16' },
-    ],
-    shortcut: '/compassicon.png',
-    apple: [
-      { url: '/compassicon.png', type: 'image/png', sizes: '180x180' },
-    ],
-    other: [
-      {
-        rel: 'icon',
-        type: 'image/png',
-        url: '/compassicon.png',
-      },
-    ],
-  },
+
   manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
@@ -86,8 +69,6 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
-        <link rel="icon" type="image/png" href="/compassicon.png" />
-        <link rel="apple-touch-icon" href="/compassicon.png" />
         <link rel="canonical" href="https://travelflow.live" />
         <meta name="theme-color" content="#4b5563" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/contexts/AuthContext'
-import { MessageCircle, Send, User } from 'lucide-react'
+import { MessageCircle, Send, User, Trash2 } from 'lucide-react'
 
 interface Comment {
   id: string
@@ -67,6 +67,31 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
   useEffect(() => {
     fetchComments()
   }, [postId])
+
+  const handleDelete = async (commentId: string, authorId: string) => {
+    if (!user || user.id !== authorId) {
+      alert('Bu yorumu silemezsiniz!')
+      return
+    }
+
+    if (!confirm('Bu yorumu silmek istediğinize emin misiniz?')) {
+      return
+    }
+
+    try {
+      const { error } = await supabase
+        .from('Comments')
+        .delete()
+        .eq('id', commentId)
+
+      if (error) throw error
+
+      fetchComments()
+    } catch (error: any) {
+      console.error('Comment delete error:', error)
+      alert('Yorum silinirken hata oluştu: ' + error.message)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -187,17 +212,28 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                 <User className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-1">
-                  <span className="font-medium text-gray-900">
-                    {comment.UserProfiles?.full_name || 'Anonim Kullanıcı'}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {new Date(comment.created_at).toLocaleDateString('tr-TR', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                  </span>
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center space-x-2">
+                    <span className="font-medium text-gray-900">
+                      {comment.UserProfiles?.full_name || 'Anonim Kullanıcı'}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {new Date(comment.created_at).toLocaleDateString('tr-TR', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  {user && user.id === comment.author_id && (
+                    <button
+                      onClick={() => handleDelete(comment.id, comment.author_id)}
+                      className="text-red-500 hover:text-red-700 transition-colors p-1"
+                      title="Yorumu sil"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
                 <p className="text-gray-700 leading-relaxed">
                   {comment.content}
