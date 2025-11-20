@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import type { Metadata } from 'next';
 import "./globals.css";

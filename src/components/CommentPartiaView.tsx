@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/contexts/AuthContext'
 import { MessageCircle, Send, User, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface Comment {
   id: string
@@ -21,6 +22,7 @@ interface CommentPartialViewProps {
 }
 
 export default function CommentPartialView({ postId }: CommentPartialViewProps) {
+  const t = useTranslations('comments')
   const { user } = useAuth()
   const supabase = createClient()
   
@@ -152,7 +154,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
       <div className="flex items-center mb-6">
         <MessageCircle className="w-5 h-5 text-blue-600 mr-2" />
         <h2 className="text-xl font-semibold text-gray-900">
-          Yorumlar ({comments.length})
+          {t('title')} ({comments.length})
         </h2>
       </div>
 
@@ -166,13 +168,13 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
               <textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Yorumunuzu yazın..."
+                placeholder={t('writeComment')}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
               />
               <div className="flex justify-between items-center mt-2">
                 <span className="text-xs text-gray-500">
-                  {newComment.length}/500 karakter
+                  {newComment.length}/500 {t('characters')}
                 </span>
                 <button
                   type="submit"
@@ -184,7 +186,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                   ) : (
                     <Send className="w-4 h-4" />
                   )}
-                  <span>{submitting ? 'Gönderiliyor...' : 'Gönder'}</span>
+                  <span>{submitting ? t('sending') : t('send')}</span>
                 </button>
               </div>
             </div>
@@ -193,8 +195,8 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
       ) : (
         <div className="mb-6 p-4 bg-gray-50 rounded-lg border">
           <p className="text-gray-600 text-center">
-            Yorum yapmak için 
-            <a href="/login" className="text-blue-600 hover:text-blue-800 ml-1">giriş yapın</a>
+            {t('loginToComment')} 
+            <a href="/login" className="text-blue-600 hover:text-blue-800 ml-1">{t('loginLink')}</a>
           </p>
         </div>
       )}
@@ -203,7 +205,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
         {loading ? (
           <div className="text-center py-8">
             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-gray-500 mt-2">Yorumlar yükleniyor...</p>
+            <p className="text-gray-500 mt-2">{t('loading')}</p>
           </div>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
@@ -215,7 +217,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center space-x-2">
                     <span className="font-medium text-gray-900">
-                      {comment.UserProfiles?.full_name || 'Anonim Kullanıcı'}
+                      {comment.UserProfiles?.full_name || t('anonymous')}
                     </span>
                     <span className="text-xs text-gray-500">
                       {new Date(comment.created_at).toLocaleDateString('tr-TR', {
@@ -244,8 +246,8 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
         ) : (
           <div className="text-center py-8">
             <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500">Henüz yorum yapılmamış.</p>
-            <p className="text-gray-400 text-sm">İlk yorumu sen yap!</p>
+            <p className="text-gray-500">{t('noCommentsYet')}</p>
+            <p className="text-gray-400 text-sm">{t('beFirst')}</p>
           </div>
         )}
       </div>

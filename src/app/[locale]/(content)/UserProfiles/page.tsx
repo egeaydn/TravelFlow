@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { User, Mail, Calendar, MapPin, Globe, UserCheck, FileText, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import LikeButton from '@/components/LikeButton'
+import { useTranslations } from 'next-intl'
 
 interface UserProfile {
   id: number
@@ -45,6 +46,7 @@ interface Comment {
 }
 
 export default function UserProfilesPage() {
+  const t = useTranslations('profile')
   const { user, loading } = useAuth()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [profileLoading, setProfileLoading] = useState(true)
@@ -159,8 +161,8 @@ export default function UserProfilesPage() {
       <div className="min-h-screen pt-24 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş Yapın</h1>
-          <p className="text-gray-600">Profilinizi görmek için giriş yapmanız gerekiyor.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('loginRequired')}</h1>
+          <p className="text-gray-600">{t('loginRequiredDesc')}</p>
         </div>
       </div>
     )
@@ -171,8 +173,8 @@ export default function UserProfilesPage() {
       <div className="min-h-screen pt-24 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Profil Bulunamadı</h1>
-          <p className="text-gray-600">Profil bilgileriniz yüklenemedi.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('notFound')}</h1>
+          <p className="text-gray-600">{t('notFoundDesc')}</p>
         </div>
       </div>
     )
@@ -210,11 +212,11 @@ export default function UserProfilesPage() {
               <div className="flex justify-center md:justify-start gap-6 text-sm">
                 <div className="text-center">
                   <span className="font-semibold text-gray-900">{userPosts.length}</span>
-                  <p className="text-gray-600">Paylaşım</p>
+                  <p className="text-gray-600">{t('posts')}</p>
                 </div>
                 <div className="text-center">
                   <span className="font-semibold text-gray-900">{userComments.length}</span>
-                  <p className="text-gray-600">Yorum</p>
+                  <p className="text-gray-600">{t('comments')}</p>
                 </div>
                
               </div>
@@ -224,7 +226,7 @@ export default function UserProfilesPage() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">İletişim Bilgileri</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('contact')}</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-gray-400" />
@@ -253,24 +255,24 @@ export default function UserProfilesPage() {
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Hesap Bilgileri</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('account')}</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-gray-400" />
                 <span className="text-gray-700">
-                  Katılma: {new Date(profile.created_at).toLocaleDateString('tr-TR')}
+                  {t('joinDate')}: {new Date(profile.created_at).toLocaleDateString('tr-TR')}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <Globe className="w-5 h-5 text-gray-400" />
                 <span className="text-gray-700">
-                  Dil: {profile.preferred_language === 'tr' ? 'Türkçe' : 'English'}
+                  {t('language')}: {profile.preferred_language === 'tr' ? t('turkish') : t('english')}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <UserCheck className="w-5 h-5 text-gray-400" />
                 <span className="text-gray-700">
-                  Durum: {profile.is_verified ? 'Doğrulanmış' : 'Doğrulanmamış'}
+                  {t('status')}: {profile.is_verified ? t('verified') : t('notVerified')}
                 </span>
               </div>
             </div>
@@ -291,7 +293,7 @@ export default function UserProfilesPage() {
               >
                 <div className="flex items-center justify-center gap-2">
                   <FileText className="w-5 h-5" />
-                  <span>Paylaşımlarım ({userPosts.length})</span>
+                  <span>{t('myPosts')} ({userPosts.length})</span>
                 </div>
               </button>
               <button
@@ -304,7 +306,7 @@ export default function UserProfilesPage() {
               >
                 <div className="flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5" />
-                  <span>Yorumlarım ({userComments.length})</span>
+                  <span>{t('myComments')} ({userComments.length})</span>
                 </div>
               </button>
             </div>
@@ -344,7 +346,7 @@ export default function UserProfilesPage() {
                 ) : (
                   <div className="text-center py-12">
                     <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500">Henüz paylaşım yapmadınız.</p>
+                    <p className="text-gray-500">{t('noPosts')}</p>
                   </div>
                 )}
               </div>
@@ -384,7 +386,7 @@ export default function UserProfilesPage() {
                 ) : (
                   <div className="text-center py-12">
                     <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500">Henüz yorum yapmadınız.</p>
+                    <p className="text-gray-500">{t('noComments')}</p>
                   </div>
                 )}
               </div>

@@ -1,8 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from 'next-intl/server';
 
 export default async function CountriesPage() {
+  const t = await getTranslations('countries');
   const supabase = await createClient();
 
   // Tüm ülkeleri çek ve her ülkede kaç post olduğunu say
@@ -21,8 +23,8 @@ export default async function CountriesPage() {
     return (
       <div className="min-h-screen pt-24 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Hata!</h1>
-          <p className="text-gray-600">Ülkeler yüklenirken bir hata oluştu.</p>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">{t('error')}</h1>
+          <p className="text-gray-600">{t('loadError')}</p>
         </div>
       </div>
     );
@@ -32,9 +34,9 @@ export default async function CountriesPage() {
     <div className="min-h-screen pt-24 px-4 pb-10">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Tüm Ülkeler</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('allCountries')}</h1>
           <p className="text-xl text-gray-600">
-            Seyahat ettiğimiz ülkeleri keşfedin ve deneyimleri okuyun
+            {t('pageDescription')}
           </p>
         </div>
 
@@ -71,9 +73,9 @@ export default async function CountriesPage() {
         ) : (
           <div className="text-center py-12">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Henüz ülke eklenmemiş
+              {t('noCountries')}
             </h3>
-            <p className="text-gray-600">İlk ülkeyi sen ekle!</p>
+            <p className="text-gray-600">{t('addFirst')}</p>
           </div>
         )}
       </div>

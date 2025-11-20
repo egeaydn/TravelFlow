@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useTranslations } from 'next-intl';
 
 type Education = {
     title: string;
@@ -21,6 +22,7 @@ type Links = {
 }
 
 export function Footer() {
+    const t = useTranslations('footer')
     const [categories, setCategories] = useState<any[]>([])
     const supabase = createClient()
 
@@ -43,38 +45,38 @@ export function Footer() {
 
     const travelInfo: Campus[] = [
         {
-            title: "İletişim",
-            address: "Seyahat deneyimlerinizi paylaşın ve keşfedin",
+            title: t('contact'),
+            address: t('contactDesc'),
         },
         {
-            title: "Topluluk",
-            address: "Binlerce gezginle bağlantı kurun ve ilham alın",
+            title: t('community'),
+            address: t('communityDesc'),
         }
     ]
 
     const quickLinks: Links[] = [
         {
-            title: "Ana Sayfa",
+            title: t('home'),
             href: "/",
         },
         {
-            title: "Destinasyonlar",
+            title: t('destinations'),
             href: "/Countries",
         },
         {
-            title: "Kategoriler",
+            title: t('categories'),
             href: "/Categories"
         },
         {
-            title: "Keşfet",
+            title: t('discover'),
             href: "/"
         },
         {
-            title: "Paylaş",
+            title: t('share'),
             href: "/createPost"
         },
         {
-            title: "Profil",
+            title: t('profile'),
             href: "/UserProfiles"
         }
     ]
@@ -83,7 +85,7 @@ export function Footer() {
         <div className="relative m-0 bg-gray-900  to-primary/10 p-6 sm:p-8">
             <div className="container mx-auto">
                 <div className="flex flex-wrap items-center gap-4 pb-10">
-                    <p className="text-white/90 font-sans text-xl sm:text-2xl m-0 tracking-wide">Bizimle Bağlantıda Kalın:</p>
+                    <p className="text-white/90 font-sans text-xl sm:text-2xl m-0 tracking-wide">{t('stayConnected')}</p>
                     <div className="flex flex-wrap gap-3">
                         {/* Instagram */}
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 text-white transition hover:bg-pink-500/10 hover:ring-pink-400/40">
@@ -109,7 +111,7 @@ export function Footer() {
                     <div className="py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div className="border-l pl-5 border-white/10">
                             <h2 className="text-white/90 uppercase tracking-wider text-sm mb-3">
-                                Keşfet
+                                {t('explore')}
                             </h2>
                             <ul className="space-y-2">
                                 {categories.map((category, index: number) => (
@@ -121,7 +123,7 @@ export function Footer() {
                         </div>
                         <div className="pl-5 pb-2 border-l border-slate-500/10 h-fit">
                             <h2 className="text-white/90 uppercase tracking-wider text-sm mb-3">
-                                TravelFlow
+                                {t('travelflow')}
                             </h2>
                             <ul className="space-y-2">
                                 {travelInfo.map((info: Campus, index: number) => (
@@ -140,7 +142,7 @@ export function Footer() {
                         </div>
                         <div className="pl-5 pb-2 border-l border-slate-500/10 h-fit">
                             <h2 className="text-white/90 uppercase tracking-wider text-sm mb-3 ">
-                                Hızlı Menü
+                                {t('quickMenu')}
                             </h2>
                             <ul className="space-y-2">
                                 {quickLinks.map((links: Links, index: number) => (
@@ -159,7 +161,7 @@ export function Footer() {
                                 </div>
                                 <div className="text-center">
                                     <h3 className="text-2xl font-bold text-white tracking-wider">TravelFlow</h3>
-                                    <p className="text-gray-400 text-sm mt-1">Keşfet, Paylaş, İlham Al</p>
+                                    <p className="text-gray-400 text-sm mt-1">{t('tagline')}</p>
                                 </div>
                             </Link>
                         </div>
@@ -167,13 +169,13 @@ export function Footer() {
                 </div>
 
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <p className="text-gray-400 font-sans text-xs sm:text-sm tracking-wide m-0">© {year} TravelFlow. Tüm hakları saklıdır.</p>
+                    <p className="text-gray-400 font-sans text-xs sm:text-sm tracking-wide m-0">© {year} TravelFlow. {t('allRights')}</p>
                     <div className="flex items-center gap-4">
-                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">Gizlilik</Link>
-                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">KVKK</Link>
-                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">Kullanım Koşulları</Link>
+                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">{t('privacy')}</Link>
+                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">{t('kvkk')}</Link>
+                        <Link href="#" className="text-gray-400 hover:text-gray-100 text-xs sm:text-sm">{t('terms')}</Link>
                         <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="inline-flex items-center gap-2 rounded-full bg-white/5 ring-1 ring-white/10 px-3 py-1.5 text-gray-200 hover:bg-white/10 text-xs">
-                            Yukarı Çık
+                            {t('scrollUp')}
                         </button>
                     </div>
                 </div>

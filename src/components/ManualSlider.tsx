@@ -2,31 +2,33 @@
 
 import { useEffect, useState } from 'react'
 import { Compass, Camera, Sparkles, Globe } from 'lucide-react'
-
-const heroQuotes = [
-  {
-    title: "Keşfet",
-    subtitle: "Dünyayı Gez, Hikayeni Yaz",
-    icon: Compass,
-  },
-  {
-    title: "Paylaş",
-    subtitle: "Anılarını Ölümsüzleştir",
-    icon: Camera,
-  },
-  {
-    title: "İlham Al",
-    subtitle: "Dünya Seni Bekliyor",
-    icon: Sparkles,
-  },
-  {
-    title: "Bağlan",
-    subtitle: "Global Topluluk",
-    icon: Globe,
-  }
-]
+import { useTranslations } from 'next-intl'
 
 export default function ManualSlider() {
+  const t = useTranslations('manualSlider')
+  
+  const heroQuotes = [
+    {
+      title: t('discover.title'),
+      subtitle: t('discover.subtitle'),
+      icon: Compass,
+    },
+    {
+      title: t('share.title'),
+      subtitle: t('share.subtitle'),
+      icon: Camera,
+    },
+    {
+      title: t('inspire.title'),
+      subtitle: t('inspire.subtitle'),
+      icon: Sparkles,
+    },
+    {
+      title: t('connect.title'),
+      subtitle: t('connect.subtitle'),
+      icon: Globe,
+    }
+  ]
   const [currentIndex, setCurrentIndex] = useState(0)
   const currentQuote = heroQuotes[currentIndex]
   const IconComponent = currentQuote.icon

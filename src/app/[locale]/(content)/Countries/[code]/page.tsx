@@ -4,6 +4,7 @@ import { MapPin, Calendar, Eye, ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import LikeButton from '@/components/LikeButton'
+import { getTranslations } from 'next-intl/server'
 
 interface CountryDetailPageProps {
   params: {
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: CountryDetailPageProps): Prom
 }
 
 export default async function CountryDetailPage({ params }: CountryDetailPageProps) {
+  const t = await getTranslations('countryDetail');
   const supabase = await createClient()
   
   const { data: country, error: countryError } = await supabase
@@ -70,7 +72,7 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
               className="inline-flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Tüm Ülkelere Dön</span>
+              <span>{t('backToCountries')}</span>
             </Link>
           </div>
 
@@ -95,12 +97,12 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                 <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
                   <div className="bg-gray-100 rounded-md px-3 py-1 flex items-center space-x-2">
                     <MapPin className="w-4 h-4 text-gray-600" />
-                    <span className="text-gray-700 text-sm font-medium">Kod: {country.code}</span>
+                    <span className="text-gray-700 text-sm font-medium">{t('code')} {country.code}</span>
                   </div>
                   <div className="bg-gray-100 rounded-md px-3 py-1 flex items-center space-x-2">
                     <Eye className="w-4 h-4 text-gray-600" />
                     <span className="text-gray-700 text-sm font-medium">
-                      {posts?.length || 0} Paylaşım
+                      {posts?.length || 0} {t('posts')}
                     </span>
                   </div>
                 </div>
@@ -121,10 +123,10 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              {country.name}'daki Seyahat Hikayeleri
+              {t('storiesFrom', { country: country.name })}
             </h2>
             <p className="text-gray-600">
-              Bu ülkeden paylaşılan deneyimleri ve hikayeleri keşfedin
+              {t('discoverStories')}
             </p>
           </div>
 
@@ -216,7 +218,7 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                       href={`/post/${post.slug}`}
                       className="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium text-sm transition-colors"
                     >
-                      Devamını Oku
+                      {t('readMore')}
                       <ArrowLeft className="w-3 h-3 ml-1 rotate-180" />
                     </Link>
                   </div>
@@ -229,17 +231,17 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                 <MapPin className="w-8 h-8 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                {country.name}'dan henüz paylaşım yok
+                {t('noPosts', { country: country.name })}
               </h3>
               <p className="text-gray-600 mb-6">
-                Bu ülkeden ilk seyahat hikayesini sen paylaş!
+                {t('beFirstToShare')}
               </p>
               <Link
                 href="/createPost"
                 className="inline-flex items-center px-4 py-2 bg-gray-900 text-white font-medium rounded-md hover:bg-gray-800 transition-colors"
               >
                 <MapPin className="w-4 h-4 mr-2" />
-                Post Paylaş
+                {t('sharePost')}
               </Link>
             </div>
           )}

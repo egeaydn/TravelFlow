@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { 
   MapPin, 
   Camera, 
@@ -18,6 +17,8 @@ import {
   LogOut
 } from "lucide-react"
 import Image from "next/image"
+import { useTranslations, useLocale } from 'next-intl'
+import { usePathname, useRouter } from '@/i18n/routing'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,9 +49,13 @@ import {
 // Statik destinasyonlar dinamik ülkeler ile değiştirildi
 
 export function Navbar() {
+  const t = useTranslations('navbar')
   const router = useRouter()
+  const pathname = usePathname()
+  const currentLocale = useLocale()
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isLangOpen, setIsLangOpen] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
   const [topCountries, setTopCountries] = useState<any[]>([])
   const [mostPopularCountry, setMostPopularCountry] = useState<any>(null)
@@ -186,6 +191,17 @@ export function Navbar() {
     }
   }
 
+  const switchLanguage = (newLocale: string) => {
+    if (newLocale === currentLocale) {
+      setIsLangOpen(false)
+      return
+    }
+    
+    // next-intl'in routing sistemi locale değişikliğini otomatik yönetir
+    router.push(pathname, { locale: newLocale })
+    setIsLangOpen(false)
+  }
+
   return (
     <>
     <nav className="h-22 sticky top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
@@ -203,7 +219,7 @@ export function Navbar() {
               <h1 className="text-xl font-bold text-gray-800">
                 TravelFlow
               </h1>
-              <p className="text-xs text-gray-500 -mt-1">Seyahat Blog Platformu</p>
+              <p className="text-xs text-gray-500 -mt-1">{t('brand')}</p>
             </div>
           </Link>
 
@@ -216,7 +232,7 @@ export function Navbar() {
                     className={`${navigationMenuTriggerStyle()} text-gray-700 hover:text-gray-900 hover:bg-gray-100`} 
                     href="/"
                   >
-                    Ana Sayfa
+                    {t('home')}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
@@ -225,7 +241,7 @@ export function Navbar() {
                     className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
                     onClick={() => router.push('/Countries')}
                   >
-                    Ülkeler
+                    {t('countries')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
@@ -242,8 +258,8 @@ export function Navbar() {
                               </div>
                               <p className="text-sm leading-tight text-gray-600">
                                 {mostPopularCountry.post_count > 0 
-                                  ? `En popüler destinasyon • ${mostPopularCountry.post_count} paylaşım`
-                                  : 'Popüler destinasyon • Keşfetmeye başla!'
+                                  ? `${t('popularDestination')} • ${mostPopularCountry.post_count} ${t('posts')}`
+                                  : `${t('popularDestination')} • ${t('startExploring')}`
                                 }
                               </p>
                             </a>
@@ -271,7 +287,7 @@ export function Navbar() {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-700 hover:text-gray-900 hover:bg-gray-100">
-                    Kategoriler
+                    {t('categories')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
@@ -300,7 +316,7 @@ export function Navbar() {
                       href="/createPost"
                     >
                       <PlusCircle className="w-4 h-4 mr-2 text-center" />
-                      Post Paylaş
+                      {t('createPost')}
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 )}
@@ -314,19 +330,74 @@ export function Navbar() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input 
                 type="text"
-                placeholder="Destinasyon, şehir veya ülke ara..."
+                placeholder={t('search')}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none text-sm bg-white/70"
               />
             </div>
           </div>
 
-          {/* Auth & Actions */}
           <div className="flex items-center space-x-3">
             
             {/* Language Switcher */}
-            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-              <Globe className="w-5 h-5" />
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+                title="Dil Değiştir / Change Language"
+              >
+                <Globe className="w-5 h-5" />
+                <span className="text-sm font-medium uppercase hidden sm:inline">
+                  {currentLocale}
+                </span>
+              </button>
+              
+              {isLangOpen && (
+                <>
+                  {/* Backdrop */}
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setIsLangOpen(false)}
+                  />
+                  
+                  {/* Dropdown */}
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden">
+                    <button
+                      onClick={() => switchLanguage('tr')}
+                      className={`w-full px-4 py-3 text-left hover:bg-gray-100 transition-colors flex items-center gap-3 ${
+                        currentLocale === 'tr' ? 'bg-gray-50 font-semibold' : ''
+                      }`}
+                    >
+                      <span className="text-2xl">🇹🇷</span>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-900">Türkçe</div>
+                        <div className="text-xs text-gray-500">Turkish</div>
+                      </div>
+                      {currentLocale === 'tr' && (
+                        <span className="text-green-600">✓</span>
+                      )}
+                    </button>
+                    
+                    <div className="h-px bg-gray-200" />
+                    
+                    <button
+                      onClick={() => switchLanguage('en')}
+                      className={`w-full px-4 py-3 text-left hover:bg-gray-100 transition-colors flex items-center gap-3 ${
+                        currentLocale === 'en' ? 'bg-gray-50 font-semibold' : ''
+                      }`}
+                    >
+                      <span className="text-2xl">🇬🇧</span>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-900">English</div>
+                        <div className="text-xs text-gray-500">İngilizce</div>
+                      </div>
+                      {currentLocale === 'en' && (
+                        <span className="text-green-600">✓</span>
+                      )}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
 
             {user ? (
               <>
@@ -379,14 +450,14 @@ export function Navbar() {
                   className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium"
                 >
                   <LogIn className="w-4 h-4" />
-                  <span>Giriş</span>
+                  <span>{t('login')}</span>
                 </Link>
                 <Link 
                   href="/register"
                   className="flex items-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
                   <UserPlus className="w-4 h-4" />
-                  <span>Kayıt Ol</span>
+                  <span>{t('register')}</span>
                 </Link>
               </div>
             )}

@@ -1,0 +1,182 @@
+{
+  "navbar": {
+    "brand": "Seyahat Blog Platformu",
+    "home": "Ana Sayfa",
+    "countries": "Ülkeler",
+    "categories": "Kategoriler",
+    "createPost": "Post Paylaş",
+    "search": "Destinasyon, şehir veya ülke ara...",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış Yap",
+    "profile": "Profilim",
+    "popularDestination": "En popüler destinasyon",
+    "posts": "paylaşım",
+    "startExploring": "Keşfetmeye başla!",
+    "loading": "yükleniyor...",
+    "logoutConfirm": "Çıkış yapmak istediğinize emin misiniz?",
+    "logoutDescription": "Çıkış yaptıktan sonra tekrar giriş yapmanız gerekecek.",
+    "cancel": "İptal",
+    "categoryDescription": "Kategori açıklaması"
+  },
+  "comments": {
+    "loading": "Yorumlar yükleniyor...",
+    "noComments": "Henüz yorum yapılmamış",
+    "viewPost": "Gönderiyi Gör",
+    "title": "Yorumlar",
+    "writeComment": "Yorumunuzu yazın...",
+    "characters": "karakter",
+    "send": "Gönder",
+    "sending": "Gönderiliyor...",
+    "loginToComment": "Yorum yapmak için",
+    "loginLink": "giriş yapın",
+    "anonymous": "Anonim Kullanıcı",
+    "noCommentsYet": "Henüz yorum yapılmamış.",
+    "beFirst": "İlk yorumu sen yap!",
+    "deleteConfirm": "Bu yorumu silmek istediğinize emin misiniz?",
+    "deleteError": "Yorum silinirken hata oluştu:",
+    "cantDelete": "Bu yorumu silemezsiniz!",
+    "delete": "Yorumu sil"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "success": "Başarılı",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "view": "Görüntüle",
+    "share": "Paylaş"
+  },
+  "home": {
+    "welcome": "Hoş Geldiniz",
+    "discoverWorld": "Dünyayı Keşfedin",
+    "categories": "Kategoriler",
+    "popularCountries": "En Popüler Ülkeler",
+    "userComments": "Kullanıcı Yorumlarımız"
+  },
+  "footer": {
+    "description": "Dünyanın dört bir yanındaki seyahat deneyimlerini keşfedin ve kendi hikayelerinizi paylaşın.",
+    "quickLinks": "Hızlı Bağlantılar",
+    "followUs": "Bizi Takip Edin",
+    "rights": "Tüm hakları saklıdır.",
+    "stayConnected": "Bizimle Bağlantıda Kalın:",
+    "explore": "Keşfet",
+    "travelflow": "TravelFlow",
+    "contact": "İletişim",
+    "contactDesc": "Seyahat deneyimlerinizi paylaşın ve keşfedin",
+    "community": "Topluluk",
+    "communityDesc": "Binlerce gezginle bağlantı kurun ve ilham alın",
+    "quickMenu": "Hızlı Menü",
+    "home": "Ana Sayfa",
+    "destinations": "Destinasyonlar",
+    "categories": "Kategoriler",
+    "discover": "Keşfet",
+    "share": "Paylaş",
+    "profile": "Profil",
+    "tagline": "Keşfet, Paylaş, İlham Al",
+    "allRights": "Tüm hakları saklıdır.",
+    "privacy": "Gizlilik",
+    "kvkk": "KVKK",
+    "terms": "Kullanım Koşulları",
+    "scrollUp": "Yukarı Çık"
+  },
+  "categories": {
+    "noCategories": "Henüz kategori bulunmuyor",
+    "error": "Hata!",
+    "notFound": "Kategori bulunamadı."
+  },
+  "countries": {
+    "noCountries": "Henüz ülke bulunmuyor",
+    "error": "Hata!",
+    "loadError": "Ülkeler yüklenirken bir hata oluştu.",
+    "allCountries": "Tüm Ülkeler",
+    "addFirst": "İlk ülkeyi sen ekle!",
+    "code": "Kod:",
+    "pageDescription": "Seyahat ettiğimiz ülkeleri keşfedin ve deneyimleri okuyun"
+  },
+  "profile": {
+    "loginRequired": "Giriş Yapın",
+    "loginRequiredDesc": "Profilinizi görmek için giriş yapmanız gerekiyor.",
+    "notFound": "Profil Bulunamadı",
+    "notFoundDesc": "Profil bilgileriniz yüklenemedi.",
+    "posts": "Paylaşım",
+    "comments": "Yorum",
+    "contact": "İletişim Bilgileri",
+    "account": "Hesap Bilgileri",
+    "noPosts": "Henüz paylaşım yapmadınız.",
+    "noComments": "Henüz yorum yapmadınız.",
+    "joinDate": "Katılma",
+    "language": "Dil",
+    "turkish": "Türkçe",
+    "english": "English",
+    "status": "Durum",
+    "verified": "Doğrulanmış",
+    "notVerified": "Doğrulanmamış",
+    "myPosts": "Paylaşımlarım",
+    "myComments": "Yorumlarım"
+  },
+  "createPost": {
+    "loading": "Yükleniyor...",
+    "loginRequired": "Giriş Gerekli",
+    "loginRequiredDesc": "Post oluşturmak için giriş yapmalısınız.",
+    "title": "Yeni Post Oluştur",
+    "subtitle": "Seyahat deneyimlerinizi paylaşın ve keşfetmelerini sağlayın."
+  },
+  "post": {
+    "tags": "Etiketler:"
+  },
+  "slider": {
+    "discover": {
+      "title": "Keşfet",
+      "description": "Dünyanın en güzel yerlerini keşfet"
+    },
+    "travel": {
+      "title": "Seyahat Et",
+      "description": "Yeni maceralar ve deneyimler"
+    },
+    "share": {
+      "title": "Paylaş",
+      "description": "Hikayelerini dünya ile paylaş"
+    },
+    "inspire": {
+      "title": "İlham Al",
+      "description": "Diğer gezginlerden ilham al"
+    },
+    "remember": {
+      "title": "Hatırla",
+      "description": "Anılarını sonsuza dek sakla"
+    }
+  },
+  "manualSlider": {
+    "discover": {
+      "title": "Keşfet",
+      "subtitle": "Dünyayı Gez, Hikayeni Yaz"
+    },
+    "share": {
+      "title": "Paylaş",
+      "subtitle": "Anılarını Ölümsüzleştir"
+    },
+    "inspire": {
+      "title": "İlham Al",
+      "subtitle": "Dünya Seni Bekliyor"
+    },
+    "connect": {
+      "title": "Bağlan",
+      "subtitle": "Global Topluluk"
+    }
+  },
+  "countryDetail": {
+    "backToCountries": "Tüm Ülkelere Dön",
+    "code": "Kod:",
+    "posts": "Paylaşım",
+    "storiesFrom": "{country}'daki Seyahat Hikayeleri",
+    "discoverStories": "Bu ülkeden paylaşılan deneyimleri ve hikayeleri keşfedin",
+    "readMore": "Devamını Oku",
+    "noPosts": "{country}'dan henüz paylaşım yok",
+    "beFirstToShare": "Bu ülkeden ilk seyahat hikayesini sen paylaş!",
+    "sharePost": "Post Paylaş",
+    "pageDescription": "Seyahat ettiğimiz ülkeleri keşfedin ve deneyimleri okuyun"
+  }
+}

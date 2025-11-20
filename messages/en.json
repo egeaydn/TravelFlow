@@ -1,0 +1,182 @@
+{
+  "navbar": {
+    "brand": "Travel Blog Platform",
+    "home": "Home",
+    "countries": "Countries",
+    "categories": "Categories",
+    "createPost": "Share Post",
+    "search": "Search destination, city or country...",
+    "login": "Login",
+    "register": "Sign Up",
+    "logout": "Logout",
+    "profile": "My Profile",
+    "popularDestination": "Most popular destination",
+    "posts": "posts",
+    "startExploring": "Start exploring!",
+    "loading": "loading...",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "logoutDescription": "You will need to log in again after logging out.",
+    "cancel": "Cancel",
+    "categoryDescription": "Category description"
+  },
+  "comments": {
+    "loading": "Loading comments...",
+    "noComments": "No comments yet",
+    "viewPost": "View Post",
+    "title": "Comments",
+    "writeComment": "Write your comment...",
+    "characters": "characters",
+    "send": "Send",
+    "sending": "Sending...",
+    "loginToComment": "To comment",
+    "loginLink": "please login",
+    "anonymous": "Anonymous User",
+    "noCommentsYet": "No comments yet.",
+    "beFirst": "Be the first to comment!",
+    "deleteConfirm": "Are you sure you want to delete this comment?",
+    "deleteError": "Error deleting comment:",
+    "cantDelete": "You cannot delete this comment!",
+    "delete": "Delete comment"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "share": "Share"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "discoverWorld": "Discover the World",
+    "categories": "Categories",
+    "popularCountries": "Most Popular Countries",
+    "userComments": "User Reviews"
+  },
+  "footer": {
+    "description": "Discover travel experiences from around the world and share your own stories.",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved.",
+    "stayConnected": "Stay Connected:",
+    "explore": "Explore",
+    "travelflow": "TravelFlow",
+    "contact": "Contact",
+    "contactDesc": "Share and discover travel experiences",
+    "community": "Community",
+    "communityDesc": "Connect with thousands of travelers and get inspired",
+    "quickMenu": "Quick Menu",
+    "home": "Home",
+    "destinations": "Destinations",
+    "categories": "Categories",
+    "discover": "Discover",
+    "share": "Share",
+    "profile": "Profile",
+    "tagline": "Discover, Share, Inspire",
+    "allRights": "All rights reserved.",
+    "privacy": "Privacy",
+    "kvkk": "GDPR",
+    "terms": "Terms of Use",
+    "scrollUp": "Scroll Up"
+  },
+  "categories": {
+    "noCategories": "No categories yet",
+    "error": "Error!",
+    "notFound": "Category not found."
+  },
+  "countries": {
+    "noCountries": "No countries yet",
+    "error": "Error!",
+    "loadError": "An error occurred while loading countries.",
+    "allCountries": "All Countries",
+    "addFirst": "Be the first to add a country!",
+    "code": "Code:",
+    "pageDescription": "Discover the countries we've traveled to and read about the experiences"
+  },
+  "profile": {
+    "loginRequired": "Login Required",
+    "loginRequiredDesc": "You need to login to view your profile.",
+    "notFound": "Profile Not Found",
+    "notFoundDesc": "Your profile information could not be loaded.",
+    "posts": "Posts",
+    "comments": "Comments",
+    "contact": "Contact Information",
+    "account": "Account Information",
+    "noPosts": "You haven't posted yet.",
+    "noComments": "You haven't commented yet.",
+    "joinDate": "Joined",
+    "language": "Language",
+    "turkish": "Turkish",
+    "english": "English",
+    "status": "Status",
+    "verified": "Verified",
+    "notVerified": "Not Verified",
+    "myPosts": "My Posts",
+    "myComments": "My Comments"
+  },
+  "createPost": {
+    "loading": "Loading...",
+    "loginRequired": "Login Required",
+    "loginRequiredDesc": "You must login to create a post.",
+    "title": "Create New Post",
+    "subtitle": "Share your travel experiences and inspire others to explore."
+  },
+  "post": {
+    "tags": "Tags:"
+  },
+  "slider": {
+    "discover": {
+      "title": "Discover",
+      "description": "Explore the world's most beautiful places"
+    },
+    "travel": {
+      "title": "Travel",
+      "description": "New adventures and experiences"
+    },
+    "share": {
+      "title": "Share",
+      "description": "Share your stories with the world"
+    },
+    "inspire": {
+      "title": "Inspire",
+      "description": "Get inspired by other travelers"
+    },
+    "remember": {
+      "title": "Remember",
+      "description": "Keep your memories forever"
+    }
+  },
+  "manualSlider": {
+    "discover": {
+      "title": "Discover",
+      "subtitle": "Travel the World, Write Your Story"
+    },
+    "share": {
+      "title": "Share",
+      "subtitle": "Immortalize Your Memories"
+    },
+    "inspire": {
+      "title": "Inspire",
+      "subtitle": "The World Awaits You"
+    },
+    "connect": {
+      "title": "Connect",
+      "subtitle": "Global Community"
+    }
+  },
+  "countryDetail": {
+    "backToCountries": "Back to All Countries",
+    "code": "Code:",
+    "posts": "Posts",
+    "storiesFrom": "Travel Stories from {country}",
+    "discoverStories": "Discover experiences and stories shared from this country",
+    "readMore": "Read More",
+    "noPosts": "No posts from {country} yet",
+    "beFirstToShare": "Be the first to share a travel story from this country!",
+    "sharePost": "Share Post",
+    "pageDescription": "Discover the countries we've traveled to and read about the experiences"
+  }
+}

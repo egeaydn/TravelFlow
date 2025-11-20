@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client'
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { MessageSquare, User, Calendar } from 'lucide-react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Comments {
   id: number
@@ -24,6 +25,7 @@ interface Comments {
 }
 
 export default function UserComments() {
+  const t = useTranslations('comments')
   const [comments, setComments] = useState<Comments[]>([])
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
@@ -87,7 +89,7 @@ export default function UserComments() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
             <MessageSquare className="w-12 h-12 mx-auto text-gray-400 animate-pulse mb-4" />
-            <p className="text-gray-500">Yorumlar yükleniyor...</p>
+            <p className="text-gray-500">{t('loading')}</p>
           </div>
         </div>
       </div>
@@ -100,7 +102,7 @@ export default function UserComments() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
             <MessageSquare className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-600">Henüz yorum yapılmamış</p>
+            <p className="text-gray-600">{t('noComments')}</p>
           </div>
         </div>
       </div>
