@@ -7,33 +7,36 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { useTranslations } from 'next-intl'
 
 export default function Slider() {
+  const t = useTranslations('slider')
+  
   const carouselImages = [
     {
       url: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=600&fit=crop",
-      title: "Keşfet",
-      description: "Dünyanın en güzel yerlerini keşfet"
+      title: t('discover.title'),
+      description: t('discover.description')
     },
     {
       url: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&h=600&fit=crop",
-      title: "Seyahat Et",
-      description: "Yeni maceralar ve deneyimler"
+      title: t('travel.title'),
+      description: t('travel.description')
     },
     {
       url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=600&fit=crop",
-      title: "Paylaş",
-      description: "Hikayelerini dünya ile paylaş"
+      title: t('share.title'),
+      description: t('share.description')
     },
     {
       url: "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=1200&h=600&fit=crop",
-      title: "İlham Al",
-      description: "Diğer gezginlerden ilham al"
+      title: t('inspire.title'),
+      description: t('inspire.description')
     },
     {
       url: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&h=600&fit=crop",
-      title: "Hatırla",
-      description: "Anılarını sonsuza dek sakla"
+      title: t('remember.title'),
+      description: t('remember.description')
     }
   ]
 

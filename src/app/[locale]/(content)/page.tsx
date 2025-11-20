@@ -4,8 +4,11 @@ import ManualSlider from '@/components/ManualSlider'
 import CountriesCard from '@/components/CountriesCard'
 import UserComments from '@/components/UserComments'
 import Script from 'next/script'
+import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations('home')
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -38,7 +41,7 @@ export default function Page() {
         <Slider />
       
       <div className="max-w-7xl mx-auto px-4 mb-8">
-        <h1 className="text-4xl font-serif mt-12 mb-8">Kategoriler</h1>
+        <h1 className="text-4xl font-serif mt-12 mb-8">{t('categories')}</h1>
         <CategoriesCard />
       </div>
 
@@ -47,12 +50,12 @@ export default function Page() {
       </div>
             
       <div className="max-w-7xl mx-auto px-4 mb-8">
-          <h1 className="text-4xl font-serif mt-12 mb-8">En Popüler Ülkeler</h1>
+          <h1 className="text-4xl font-serif mt-12 mb-8">{t('popularCountries')}</h1>
           <CountriesCard />
       </div>
 
        <div className="max-w-7xl mx-auto px-4 mb-8">
-          <h1 className="text-4xl font-serif mt-12 mb-8">Kullanıcı Yorumlarımız</h1>
+          <h1 className="text-4xl font-serif mt-12 mb-8">{t('userComments')}</h1>
           <UserComments />
       </div>
 

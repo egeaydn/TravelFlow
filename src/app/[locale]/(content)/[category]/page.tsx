@@ -33,20 +33,23 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const supabase = await createClient()
+  const { category: categorySlug } = await params
   
   const { data: category, error: categoryError } = await supabase
     .from('Categories')
     .select('*')
-    .eq('slug', params.category)
-    .single()
+    .eq('slug', categorySlug)
+    .maybeSingle()
 
-  if (categoryError) { //burada basit hata kontrolü yaptım
-    console.error('Error fetching category:', categoryError)
+  if (!category || categoryError) {
     return (
       <div className="min-h-screen pt-24 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Hata!</h1>
           <p className="text-gray-600">Kategori bulunamadı.</p>
+          <Link href="/" className="text-blue-600 hover:text-blue-800 mt-4 inline-block">
+            Ana Sayfaya Dön →
+          </Link>
         </div>
       </div>
     )

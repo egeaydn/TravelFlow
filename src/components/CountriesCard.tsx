@@ -14,6 +14,7 @@ import {
   ArrowRight
 } from 'lucide-react'
 import Image from "next/image";
+import { useTranslations } from 'next-intl'
 
 
 interface Country {
@@ -28,6 +29,7 @@ interface Country {
 }
 
 export default function CountriesCard(){
+    const t = useTranslations('countries')
     const [countries, setCountries] = useState<Country[]>([])
     const [loading, setLoading] = useState(true)
     const supabase = createClient()
@@ -107,7 +109,7 @@ if (countries.length === 0) {
         <Card className="text-center py-12">
           <CardContent>
             <Camera className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-500 text-lg">Henüz ülke bulunmuyor</p>
+            <p className="text-gray-500 text-lg">{t('noCountries')}</p>
           </CardContent>
         </Card>
       </div>

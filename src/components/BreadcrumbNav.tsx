@@ -14,11 +14,12 @@ import Link from "next/link";
 
 export function BreadcrumbNav() {
     const pathname = usePathname();
-    const isHome = pathname === '/';
+    const isHome = pathname === '/' || pathname === '/en';
 
     if (isHome) return null;
 
-    const pathSegments = pathname.split('/').filter(segment => segment !== '');
+    // /en gibi locale prefix'lerini breadcrumb'dan çıkar
+    const pathSegments = pathname.split('/').filter(segment => segment !== '' && segment !== 'en' && segment !== 'tr');
 
     const getBreadcrumbLabel = (segment: string) => {
         const decoded = decodeURIComponent(segment);

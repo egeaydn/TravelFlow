@@ -13,6 +13,7 @@ import {
   Sparkles,
   ArrowRight
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface Category {
   id: number
@@ -41,6 +42,7 @@ const getCategoryColor = (slug: string) => {
 }
 
 export default function CategoriesCard() {
+  const t = useTranslations('categories')
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
@@ -92,7 +94,7 @@ export default function CategoriesCard() {
         <Card className="text-center py-12">
           <CardContent>
             <Camera className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-500 text-lg">Henüz kategori bulunmuyor</p>
+            <p className="text-gray-500 text-lg">{t('noCategories')}</p>
           </CardContent>
         </Card>
       </div>
