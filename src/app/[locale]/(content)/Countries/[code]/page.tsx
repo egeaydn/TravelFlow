@@ -148,7 +148,6 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                   )}
 
                   <div className="p-6">
-                    {/* Category Badge */}
                     {post.Categories && (
                       <div className="mb-3">
                         <Link
@@ -225,7 +224,7 @@ export default async function CountryDetailPage({ params }: CountryDetailPagePro
                 </article>
               ))}
             </div>
-          ) : (//burası koşula bağlu şekilkde eğer post yolsa çaılışacak kısım
+          ) : (//burası koşula bağlu şekilkde eğer post yolksa çaılışacak kısım
             <div className="text-center py-16">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-lg mb-6">
                 <MapPin className="w-8 h-8 text-gray-400" />

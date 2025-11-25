@@ -126,7 +126,7 @@ export default function UserProfilesPage() {
 
       if (error) throw error
       
-      // Post bilgilerini ayrı olarak çek
+      // Post bilgilerini ayrı olarak çektik
       const commentsWithPosts = await Promise.all(
         (data || []).map(async (comment) => {
           const { data: postData } = await supabase

@@ -57,8 +57,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   if (slugResult.data) {
     post = slugResult.data
     error = slugResult.error
-  } else {
-    // Slug bulunamadıysa ID ile dene (sayısal değer ise)
+  } 
+  else {
+    // Slug bulunamadıysa ID ile denemesi için burada bir supabase sogusu dödürüyorxu
     const isNumeric = /^\d+$/.test(postSlug)
     if (isNumeric) {
       const idResult = await supabase

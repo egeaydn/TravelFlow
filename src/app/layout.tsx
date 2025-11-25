@@ -18,42 +18,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-
-  manifest: '/site.webmanifest',
-  openGraph: {
-    type: 'website',
-    locale: 'tr_TR',
-    url: 'https://travelflow.live',
-    title: 'TravelFlow - Seyahat Blog Platformu',
-    description: 'Keşfet. Dünyanın en güzel yerlerini keşfet • Seyahat Et. Yeni maceralar ve deneyimler • Paylaş. Hikayelerini dünya ile paylaş • İlham Al. Diğer gezginlerden ilham ...',
-    siteName: 'TravelFlow',
-    images: [
-      {
-        url: 'https://travelflow.live/compassicon.png',
-        width: 512,
-        height: 512,
-        alt: 'TravelFlow - Seyahat Blog Platformu',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'TravelFlow - Seyahat Blog Platformu',
-    description: 'Keşfet. Dünyanın en güzel yerlerini keşfet • Seyahat Et. Yeni maceralar ve deneyimler • Paylaş. Hikayelerini dünya ile paylaş',
-    images: ['https://travelflow.live/compassicon.png'],
-    creator: '@travelflow',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
   verification: {
     google: 'c8jabDxPEjdGBl8s1pbP3rWRbIynSZ4qaDlFoOEmxwA',
   },

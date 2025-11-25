@@ -9,34 +9,10 @@ import { getTranslations } from 'next-intl/server'
 
 export default async function Page() {
   const t = await getTranslations('home')
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'TravelFlow',
-    description: 'Seyahat Blog Platformu - Keşfet, Paylaş, İlham Al',
-    url: 'https://travelflow.live',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: 'https://travelflow.live/search?q={search_term_string}',
-      'query-input': 'required name=search_term_string',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'TravelFlow',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://travelflow.live/compassicon.png',
-      },
-    },
-  }
+
 
   return (
     <>
-      <Script
-        id="json-ld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <div className='mb-10'>
         <Slider />
       

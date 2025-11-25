@@ -47,11 +47,11 @@ export function Footer() {
     const travelInfo: Campus[] = [
         {
             title: t('contact'),
-            address: t('contactDesc'),
+            address: ('contactDesc'),
         },
         {
             title: t('community'),
-            address: t('communityDesc'),
+            address: ('communityDesc'),
         }
     ]
 
@@ -124,7 +124,7 @@ export function Footer() {
                         </div>
                         <div className="pl-5 pb-2 border-l border-slate-500/10 h-fit">
                             <h2 className="text-white/90 uppercase tracking-wider text-sm mb-3">
-                                {t('travelflow')}
+                                {('travelflow')}
                             </h2>
                             <ul className="space-y-2">
                                 {travelInfo.map((info: Campus, index: number) => (
