@@ -80,7 +80,8 @@
     "privacy": "Gizlilik",
     "kvkk": "KVKK",
     "terms": "Kullanım Koşulları",
-    "scrollUp": "Yukarı Çık"
+    "scrollUp": "Yukarı Çık",
+    "locale": "tr"
   },
   "categories": {
     "noCategories": "Henüz kategori bulunmuyor",
@@ -178,5 +179,14 @@
     "beFirstToShare": "Bu ülkeden ilk seyahat hikayesini sen paylaş!",
     "sharePost": "Post Paylaş",
     "pageDescription": "Seyahat ettiğimiz ülkeleri keşfedin ve deneyimleri okuyun"
+  },
+  "breadcrumb": {
+    "home": "Ana Sayfa",
+    "createPost": "Gönderi Oluştur",
+    "profile": "Profilim",
+    "countries": "Ülkeler",
+    "post": "Gönderi",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol"
   }
 }

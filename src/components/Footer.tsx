@@ -39,6 +39,7 @@ export function Footer() {
         if (data) setCategories(data)
     }
 
+   
     const phone = "0212 555 0123";
     const email = "info@travelflow.com";
     const year = new Date().getFullYear();
@@ -116,7 +117,7 @@ export function Footer() {
                             <ul className="space-y-2">
                                 {categories.map((category, index: number) => (
                                     <li key={category.id} className="text-gray-400 hover:text-gray-100 transition-colors">
-                                        <Link href={`/${category.slug}`}>{category.name}</Link>
+                                        <Link href={`/${category.slug}`}>{(category.name)}</Link>
                                     </li>
                                 ))}
                             </ul>
