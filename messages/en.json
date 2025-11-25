@@ -80,7 +80,8 @@
     "privacy": "Privacy",
     "kvkk": "GDPR",
     "terms": "Terms of Use",
-    "scrollUp": "Scroll Up"
+    "scrollUp": "Scroll Up",
+    "locale": "en"
   },
   "categories": {
     "noCategories": "No categories yet",
@@ -178,5 +179,14 @@
     "beFirstToShare": "Be the first to share a travel story from this country!",
     "sharePost": "Share Post",
     "pageDescription": "Discover the countries we've traveled to and read about the experiences"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "createPost": "Create Post",
+    "profile": "My Profile",
+    "countries": "Countries",
+    "post": "Post",
+    "login": "Login",
+    "register": "Sign Up"
   }
 }

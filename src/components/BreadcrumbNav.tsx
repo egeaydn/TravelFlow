@@ -11,8 +11,10 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 export function BreadcrumbNav() {
+    const t = useTranslations('breadcrumb');
     const pathname = usePathname();
     const isHome = pathname === '/' || pathname === '/en';
 
@@ -25,12 +27,12 @@ export function BreadcrumbNav() {
         const decoded = decodeURIComponent(segment);
         
         const labelMap: { [key: string]: string } = {
-            'createPost': 'Gönderi Oluştur',
-            'UserProfiles': 'Profilim',
-            'Countries': 'Ülkeler',
-            'post': 'Gönderi',
-            'login': 'Giriş Yap',
-            'register': 'Kayıt Ol'
+            'createPost': t('createPost'),
+            'UserProfiles': t('profile'),
+            'Countries': t('countries'),
+            'post': t('post'),
+            'login': t('login'),
+            'register': t('register')
         };
 
         return labelMap[segment] || decoded.replace(/-/g, ' ');
@@ -42,7 +44,7 @@ export function BreadcrumbNav() {
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/">Ana Sayfa</Link>
+                            <Link href="/">{t('home')}</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     
