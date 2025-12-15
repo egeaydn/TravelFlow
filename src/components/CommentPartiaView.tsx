@@ -5,9 +5,20 @@ import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/contexts/AuthContext'
 import { MessageCircle, Send, User, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 interface Comment {
-  id: string
+  id: number
   content: string
   created_at: string
   author_id: string
@@ -70,16 +81,7 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
     fetchComments()
   }, [postId])
 
-  const handleDelete = async (commentId: string, authorId: string) => {
-    if (!user || user.id !== authorId) {
-      alert('Bu yorumu silemezsiniz!')
-      return
-    }
-
-    if (!confirm('Bu yorumu silmek istediğinize emin misiniz?')) {
-      return
-    }
-
+  const handleDelete = async (commentId: number) => {
     try {
       const { error } = await supabase
         .from('Comments')
@@ -88,7 +90,8 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
 
       if (error) throw error
 
-      fetchComments()
+      // Yorumları güncelle
+      setComments(comments.filter(c => c.id !== commentId))
     } catch (error: any) {
       console.error('Comment delete error:', error)
       alert('Yorum silinirken hata oluştu: ' + error.message)
@@ -228,13 +231,33 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                     </span>
                   </div>
                   {user && user.id === comment.author_id && (
-                    <button
-                      onClick={() => handleDelete(comment.id, comment.author_id)}
-                      className="text-red-500 hover:text-red-700 transition-colors p-1"
-                      title="Yorumu sil"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button
+                          className="text-red-500 hover:text-red-700 transition-colors p-1"
+                          title="Yorumu sil"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Yorumu silmek istediğinize emin misiniz?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Bu işlem geri alınamaz. Yorum kalıcı olarak silinecektir.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>İptal</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDelete(comment.id)}
+                            className="bg-red-500 hover:bg-red-600"
+                          >
+                            Sil
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
                 </div>
                 <p className="text-gray-700 leading-relaxed">
