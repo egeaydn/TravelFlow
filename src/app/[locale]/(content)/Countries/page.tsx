@@ -49,17 +49,21 @@ export default async function CountriesPage() {
                 href={`/Countries/${country.code}`}
                 className="bg-white/300 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
-                <div className="h-48 w-full overflow-hidden">
-                  <img
-                    src={country.flag_url}
-                    alt={country.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="h-48 w-full overflow-hidden relative">
+                  {country.flag_url ? (
+                    <img
+                      src={country.flag_url}
+                      alt={country.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-4xl">{country.flag || '🌍'}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-center justify-center mb-4">
-                  </div>
                   <h3 className="text-2xl font-serif text-gray-900 text-center mb-2">
                     {country.name}
                   </h3>

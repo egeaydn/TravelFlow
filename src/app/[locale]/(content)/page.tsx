@@ -17,12 +17,12 @@ export default async function Page() {
         <Slider />
       
       <div className="max-w-7xl mx-auto px-4 mb-8">
-        <h1 className="text-4xl font-serif mt-12 mb-8">{t('categories')}</h1>
-        <CategoriesCard />
+          <h1 className="text-4xl font-serif mt-12 mb-8">{t('categories')}</h1>
+          <CategoriesCard />
       </div>
 
       <div className='mx-auto'>
-      <ManualSlider />
+           <ManualSlider />
       </div>
             
       <div className="max-w-7xl mx-auto px-4 mb-8">

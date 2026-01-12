@@ -37,11 +37,12 @@ export async function generateMetadata({ params }: CountryDetailPageProps): Prom
 export default async function CountryDetailPage({ params }: CountryDetailPageProps) {
   const t = await getTranslations('countryDetail');
   const supabase = await createClient()
+  const { code } = await params
   
   const { data: country, error: countryError } = await supabase
     .from('Countries')
     .select('*')
-    .eq('code', params.code.toUpperCase())
+    .eq('code', code.toUpperCase())
     .single()
 
   if (countryError || !country) {

@@ -181,7 +181,7 @@ export default function UserProfilesPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 px-4 bg-gray-50">
+    <div className="min-h-screen pt-4 px-4 bg-gray-50">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
