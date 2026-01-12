@@ -102,33 +102,34 @@ export default function CategoriesCard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {categories.map((category) => (
-          <Link 
-            href={`/${category.slug}`} 
-            key={category.id}
-            className="group"
-          >
-            <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-2 hover:border-gray-300">
-              <CardHeader>
-               
-                
-                <CardTitle className="text-2xl font-bold text-gray-800 group-hover:text-gray-900 flex items-center justify-between">
-                  {category.name}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {categories.map((category) => (
+        <Link 
+          href={`/${category.slug}`} 
+          key={category.id}
+          className="group"
+        >
+          <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-white border border-gray-200 hover:border-gray-400 rounded-xl overflow-hidden">
+            <CardHeader className="space-y-4 p-6">
+              {/* Icon Circle */}
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                {getCategoryIcon(category.slug)}
+              </div>
+              
+              <div className="space-y-2">
+                <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-gray-700 flex items-center justify-between transition-colors">
+                  <span>{category.name}</span>
                   <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all duration-300" />
                 </CardTitle>
                 
-                <CardDescription className="text-gray-600 line-clamp-2">
+                <CardDescription className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
                   {category.description || 'Bu kategoride seyahat deneyimlerini keşfedin'}
                 </CardDescription>
-              </CardHeader>
-              
-              
-            </Card>
-          </Link>
-        ))}
-      </div>
+              </div>
+            </CardHeader>
+          </Card>
+        </Link>
+      ))}
     </div>
   )
 }

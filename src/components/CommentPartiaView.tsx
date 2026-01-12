@@ -88,12 +88,17 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
         .delete()
         .eq('id', commentId)
 
-      if (error) throw error
+      if (error) {
+        console.error('Yorum silme hatası:', error)
+        alert('Yorum silinirken hata oluştu: ' + error.message)
+        return
+      }
 
       // Yorumları güncelle
-      setComments(comments.filter(c => c.id !== commentId))
+      setComments(prevComments => prevComments.filter(c => c.id !== commentId))
+      
     } catch (error: any) {
-      console.error('Comment delete error:', error)
+      console.error('Yorum silme hatası:', error)
       alert('Yorum silinirken hata oluştu: ' + error.message)
     }
   }
@@ -250,7 +255,10 @@ export default function CommentPartialView({ postId }: CommentPartialViewProps) 
                         <AlertDialogFooter>
                           <AlertDialogCancel>İptal</AlertDialogCancel>
                           <AlertDialogAction
-                            onClick={() => handleDelete(comment.id)}
+                            onClick={async (e) => {
+                              e.preventDefault()
+                              await handleDelete(comment.id)
+                            }}
                             className="bg-red-500 hover:bg-red-600"
                           >
                             Sil

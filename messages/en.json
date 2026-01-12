@@ -95,7 +95,8 @@
     "allCountries": "All Countries",
     "addFirst": "Be the first to add a country!",
     "code": "Code:",
-    "pageDescription": "Discover the countries we've traveled to and read about the experiences"
+    "pageDescription": "Discover the countries we've traveled to and read about the experiences",
+    "posts": "posts"
   },
   "profile": {
     "loginRequired": "Login Required",

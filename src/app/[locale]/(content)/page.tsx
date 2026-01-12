@@ -12,30 +12,55 @@ export default async function Page() {
 
 
   return (
-    <>
-      <div className='mb-10'>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Hero Slider Section */}
+      <section className="w-full">
         <Slider />
-      
-      <div className="max-w-7xl mx-auto px-4 mb-8">
-          <h1 className="text-4xl font-serif mt-12 mb-8">{t('categories')}</h1>
+      </section>
+
+      {/* Categories Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+              {t('categories')}
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-gray-900 to-gray-600 rounded-full"></div>
+          </div>
           <CategoriesCard />
-      </div>
+        </div>
+      </section>
 
-      <div className='mx-auto'>
-           <ManualSlider />
-      </div>
-            
-      <div className="max-w-7xl mx-auto px-4 mb-8">
-          <h1 className="text-4xl font-serif mt-12 mb-8">{t('popularCountries')}</h1>
+      {/* Manual Slider Section */}
+      <section className="w-full my-12">
+        <ManualSlider />
+      </section>
+
+      {/* Popular Countries Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+              {t('popularCountries')}
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-gray-900 to-gray-600 rounded-full"></div>
+          </div>
           <CountriesCard />
-      </div>
+        </div>
+      </section>
 
-       <div className="max-w-7xl mx-auto px-4 mb-8">
-          <h1 className="text-4xl font-serif mt-12 mb-8">{t('userComments')}</h1>
+      {/* User Comments Section */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+              {t('userComments')}
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-gray-900 to-gray-600 rounded-full"></div>
+          </div>
           <UserComments />
-      </div>
-
-      </div>
-    </>
+        </div>
+      </section>
+    </div>
   )
 }

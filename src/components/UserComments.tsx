@@ -111,17 +111,16 @@ export default function UserComments() {
   }
 
   return (
-    <div className="w-full py-16 ">
-      <div className="max-w-7xl mx-auto px-4 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-          {comments.map((comment) => {
-            if (!comment.UserProfiles || !comment.Posts) return null;
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {comments.map((comment) => {
+          if (!comment.UserProfiles || !comment.Posts) return null;
 
-            return (
-              <Card
-                key={comment.id}
-                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-200"
-              >
+          return (
+            <Card
+              key={comment.id}
+              className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border border-gray-200 hover:border-gray-400 rounded-xl overflow-hidden"
+            >
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold overflow-hidden">
@@ -163,10 +162,9 @@ export default function UserComments() {
                     <span>→</span>
                   </Link>
                 </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

@@ -120,34 +120,36 @@ export default function CountriesCard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {countries.map((country) => (
-          <Link
-            key={country.id}
-            href={`/Countries/${country.code}`}
-            className="bg-white/300 rounded-sm shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
-          >
-            <div className="h-48 w-full overflow-hidden">
-              <img
-                src={country.flag_url}
-                alt={country.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {countries.map((country) => (
+        <Link
+          key={country.id}
+          href={`/Countries/${country.code}`}
+          className="group bg-white rounded-xl shadow-md hover:shadow-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 border border-gray-200 hover:border-gray-400"
+        >
+          <div className="h-48 w-full overflow-hidden relative">
+            <img
+              src={country.flag_url}
+              alt={country.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            {(country.post_count ?? 0) > 0 && (
+              <div className="absolute top-3 right-3 bg-gray-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium">
+                {country.post_count} {t('posts')}
+              </div>
+            )}
+          </div>
 
-            <div className="p-6">
-              <div className="flex items-center justify-center mb-4"></div>
-              <h3 className="text-2xl font-serif text-gray-900 text-center mb-2">
-                {country.name}
-              </h3>
-              <p className="text-gray-600 text-center text-sm">
-                {country.name_en}
-              </p>
-            </div>
-          </Link>
-        ))}
-      </div>
+          <div className="p-5">
+            <h3 className="text-xl font-bold text-gray-900 text-center mb-1 group-hover:text-gray-700 transition-colors">
+              {country.name}
+            </h3>
+            <p className="text-gray-500 text-center text-sm font-medium">
+              {country.name_en}
+            </p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }
