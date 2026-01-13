@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import Image from "next/image";
 import { getTranslations } from 'next-intl/server';
+import CountryCard from '@/components/CountryCard';
+import { Globe, Sparkles } from 'lucide-react';
 
 export default async function CountriesPage() {
   const t = await getTranslations('countries');
@@ -31,55 +31,51 @@ export default async function CountriesPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 px-4 pb-10">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('allCountries')}</h1>
-          <p className="text-xl text-gray-600">
+    <div className="min-h-screen pt-24 px-4 pb-16 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Hero Section */}
+        <div className="mb-12 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-900 to-gray-700 rounded-2xl mb-6 shadow-lg">
+            <Globe className="w-8 h-8 text-white" />
+          </div>
+          
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
+            {t('allCountries')}
+          </h1>
+          
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             {t('pageDescription')}
           </p>
+          
+          <div className="mt-6 flex items-center justify-center gap-2 text-gray-500">
+            <Sparkles className="w-5 h-5" />
+            <span className="text-sm font-medium">
+              {countries?.length || 0} ülke keşfedilmeyi bekliyor
+            </span>
+          </div>
         </div>
 
+        {/* Countries Grid */}
         {countries && countries.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {countries.map((country) => (
-
-              <Link
-                key={country.id}
-                href={`/Countries/${country.code}`}
-                className="bg-white/300 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                <div className="h-48 w-full overflow-hidden relative">
-                  {country.flag_url ? (
-                    <img
-                      src={country.flag_url}
-                      alt={country.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-4xl">{country.flag || '🌍'}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-serif text-gray-900 text-center mb-2">
-                    {country.name}
-                  </h3>
-                  <p className="text-gray-600 text-center text-sm">
-                    {country.name_en}
-                  </p>
-                </div>
-              </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {countries.map((country, index) => (
+              <CountryCard 
+                key={country.id} 
+                country={country} 
+                index={index}
+              />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <div className="text-center py-20">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+              <Globe className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
               {t('noCountries')}
             </h3>
-            <p className="text-gray-600">{t('addFirst')}</p>
+            <p className="text-gray-600 text-lg">{t('addFirst')}</p>
           </div>
         )}
       </div>

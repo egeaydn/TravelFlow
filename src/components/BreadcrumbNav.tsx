@@ -18,7 +18,10 @@ export function BreadcrumbNav() {
     const pathname = usePathname();
     const isHome = pathname === '/' || pathname === '/en';
 
-    if (isHome) return null;
+    // Ülke detay sayfalarında breadcrumb'ı gizle (Countries/[code])
+    const isCountryDetail = /^\/[a-z]{2}\/Countries\/[A-Z]{2,3}$/.test(pathname) || /^\/Countries\/[A-Z]{2,3}$/.test(pathname);
+
+    if (isHome || isCountryDetail) return null;
 
     // /en gibi locale prefix'lerini breadcrumb'dan çıkar
     const pathSegments = pathname.split('/').filter(segment => segment !== '' && segment !== 'en' && segment !== 'tr');
