@@ -41,7 +41,11 @@
 ### 🎨 Kullanıcı Deneyimi
 - **Responsive Tasarım**: Mobil, tablet ve masaüstü uyumlu
 - **Modern UI**: TailwindCSS + shadcn/ui bileşenleri
-- **Smooth Animations**: Geçiş efektleri ve yükleme durumları
+- **Smooth Animations**: Framer Motion ile profesyonel animasyonlar
+  - Stagger animations (sıralı element girişleri)
+  - Hover transformations (scale, translateY)
+  - Page transitions
+  - Micro-interactions
 - **Dark Mode Ready**: Karanlık mod desteği _(yakında)_
 
 ## 🛠️ Teknoloji Yığını
@@ -50,6 +54,7 @@
 - **Framework**: [Next.js 15.5.5](https://nextjs.org/) (App Router + Turbopack)
 - **Dil**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [TailwindCSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) - Smooth page transitions & micro-interactions
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **State Management**: React Context API
 
@@ -89,6 +94,8 @@ travelflow/
 │   │   ├── Navbar.tsx           # Navigation bar
 │   │   ├── Footer.tsx           # Footer
 │   │   ├── BreadcrumbNav.tsx    # Breadcrumb navigation
+│   │   ├── CountryCard.tsx      # Ülke kartı (Framer Motion)
+│   │   ├── PostCard.tsx         # Post kartı (Framer Motion)
 │   │   ├── LikeButton.tsx       # Beğeni butonu
 │   │   └── CommentPartiaView.tsx # Yorum sistemi
 │   ├── contexts/                # React contexts
