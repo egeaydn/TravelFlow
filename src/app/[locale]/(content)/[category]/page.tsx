@@ -4,9 +4,9 @@ import LikeButton from '@/components/LikeButton'
 import type { Metadata } from 'next'
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     category: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {

@@ -7,9 +7,9 @@ import LikeButton from '@/components/LikeButton'
 import { getTranslations } from 'next-intl/server'
 
 interface CountryDetailPageProps {
-  params: {
+  params: Promise<{
     code: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: CountryDetailPageProps): Promise<Metadata> {
